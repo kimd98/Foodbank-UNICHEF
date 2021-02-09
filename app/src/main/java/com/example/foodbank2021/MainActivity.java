@@ -17,8 +17,6 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-// test comment
-
 public class MainActivity extends AppCompatActivity {
     private EditText username,
             password;
@@ -82,6 +80,7 @@ public class MainActivity extends AppCompatActivity {
         });
     };
 
+    // function to remember the account using an active switch
     @Override
     protected void onStart() {
         super.onStart();
