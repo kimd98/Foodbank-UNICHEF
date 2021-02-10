@@ -29,7 +29,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private Button login;
     private TextView register;
     private EditText user_email, user_password;
-    private ProgressBar progressBar;
     Switch active; // for remember me
 
     // This is a landing login page
@@ -54,7 +53,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.register:
+            case R.id.signup:
                 startActivity(new Intent(this, RegisterUser.class));
                 break;
 
@@ -96,7 +95,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         String password = user_password.getText().toString().trim();
 
         // I don't know what this is :) ?
-        progressBar.setVisibility(View.VISIBLE);
 
         // if input data is invalid, do nothing
         if (validityCheck(email, password))
