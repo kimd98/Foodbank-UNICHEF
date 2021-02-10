@@ -124,14 +124,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 startActivity(new Intent(this, RegisterUser.class));
                 break;
 
-            case R.id.signIn:
-                userLogin();
-                break;
+            ///case R.id.signIn:
+                //userLogin();
+                //break;
 
         }
     }
 
-    private void userLogin() {
+    /*private void userLogin() {
         String email=editTextEmail.getText().toString().trim();
         String password=editTextPassword.getText().toString().trim();
 
@@ -178,5 +178,5 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }
             }
         });
-    }
+    }*/
 }
