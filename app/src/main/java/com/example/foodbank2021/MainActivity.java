@@ -6,7 +6,6 @@ import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ProgressBar;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -25,11 +24,14 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import org.w3c.dom.Text;
+
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     private Button login;
-    private TextView register;
+    private TextView register,forgotPassword;
     private EditText user_email, user_password;
-    Switch active; // for remember me
+    private FirebaseAuth mAuth;
+    Switch active;
 
     // This is a landing login page
     @Override
@@ -43,7 +45,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         user_email=(EditText)findViewById(R.id.email);
         user_password=(EditText)findViewById(R.id.password);
         active = findViewById(R.id.active);
-
+        mAuth=FirebaseAuth.getInstance();
+        forgotPassword=(TextView)findViewById(R.id.forgotpw);
+        forgotPassword.setOnClickListener(this);
         // links to onClick function
         register.setOnClickListener(this);
         login.setOnClickListener(this);
@@ -56,13 +60,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.signup:
                 startActivity(new Intent(this, RegisterUser.class));
                 break;
-
             case R.id.login:
                 userLogin();
                 break;
+            case R.id.forgotpw:
+                startActivity(new Intent(this,ForgotPassword.class));
+                break;
         }
     };
-
 
     // a helper function for login info validity check
     private boolean validityCheck(String input_email, String input_password) {
@@ -87,14 +92,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         return false;
     };
 
-
     // login activity (validity check, account match, google authentication)
     private void userLogin() {
         // casting global user data to string
         String email = user_email.getText().toString().trim();
         String password = user_password.getText().toString().trim();
 
-        // I don't know what this is :) ?
 
         // if input data is invalid, do nothing
         if (validityCheck(email, password))
@@ -103,7 +106,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         // Firebase Authentication Sign-in Method (reference to "Users")
         FirebaseAuth mAuth = FirebaseAuth.getInstance();
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Users");
-
         mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
 
             // a helper function to login as admin/user
@@ -144,6 +146,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (task.isSuccessful()) {
                     FirebaseUser user=FirebaseAuth.getInstance().getCurrentUser();
+                    assert user != null;
                     if (user.isEmailVerified()) {
                         login(user.getUid());
                     } else {    // email not verified
@@ -155,7 +158,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }
             };
         });
-
     };
 
     // choose either admin page or user page after successfully log into the app
