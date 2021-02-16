@@ -21,6 +21,7 @@ import com.google.android.material.snackbar.Snackbar;
 public class UserActivity extends AppCompatActivity {
 
     private AppBarConfiguration mAppBarConfiguration;
+    private MenuItem item;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,7 +42,7 @@ public class UserActivity extends AppCompatActivity {
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         mAppBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.nav_home, R.id.nav_gallery, R.id.nav_slideshow)
+                R.id.nav_home, R.id.nav_gallery, R.id.nav_qrcode)
                 .setDrawerLayout(drawer)
                 .build();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
@@ -67,5 +68,9 @@ public class UserActivity extends AppCompatActivity {
         startActivity(new Intent(UserActivity.this, MainActivity.class));
         preferences.clearData(this);
         finish();
+    }
+    public void qrcode(MenuItem item){
+        startActivity(new Intent(UserActivity.this,createQRcode.class));
+
     }
 }

@@ -24,10 +24,13 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import org.w3c.dom.Text;
+
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     private Button login;
-    private TextView register;
+    private TextView register,forgotPassword;
     private EditText user_email, user_password;
+    private FirebaseAuth mAuth;
     Switch active;
 
     // This is a landing login page
@@ -42,7 +45,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         user_email=(EditText)findViewById(R.id.email);
         user_password=(EditText)findViewById(R.id.password);
         active = findViewById(R.id.active);
-
+        mAuth=FirebaseAuth.getInstance();
+        forgotPassword=(TextView)findViewById(R.id.forgotpw);
+        forgotPassword.setOnClickListener(this);
         // links to onClick function
         register.setOnClickListener(this);
         login.setOnClickListener(this);
@@ -57,6 +62,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             case R.id.login:
                 userLogin();
+                break;
+            case R.id.forgotpw:
+                startActivity(new Intent(this,ForgotPassword.class));
                 break;
         }
     };
@@ -89,6 +97,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         // casting global user data to string
         String email = user_email.getText().toString().trim();
         String password = user_password.getText().toString().trim();
+
 
         // if input data is invalid, do nothing
         if (validityCheck(email, password))

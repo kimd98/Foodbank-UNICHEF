@@ -18,7 +18,7 @@
         tools:layout="@layout/user_fragment_gallery" />
 
     <fragment
-        android:id="@+id/nav_slideshow"
+        android:id="@+id/nav_qrcode"
         android:name="com.example.foodbank2021.user_ui.SlideshowFragment"
         android:label="@string/menu_slideshow"
         tools:layout="@layout/user_fragment_slideshow" />

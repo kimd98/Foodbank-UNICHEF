@@ -102,9 +102,10 @@ public class RegisterUser extends AppCompatActivity implements View.OnClickListe
                                     .setValue(user).addOnCompleteListener(new OnCompleteListener<Void>() {
                                 @Override
                                 public void onComplete(@NonNull Task<Void> task) {
-                                    if (task.isSuccessful())
-                                        Toast.makeText(RegisterUser.this,"User has been registered successfully! " +
-                                                "Check your email to verify your account.",Toast.LENGTH_LONG).show();
+                                    if (task.isSuccessful()) {
+                                        Toast.makeText(RegisterUser.this, "User has been registered successfully! Please check your email to verify your account", Toast.LENGTH_LONG).show();
+                                        startActivity(new Intent(RegisterUser.this,MainActivity.class));
+                                    }
                                     else
                                         Toast.makeText(RegisterUser.this,"Failed to register! Try again!",Toast.LENGTH_LONG).show();
                                 };
