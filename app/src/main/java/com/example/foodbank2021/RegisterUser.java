@@ -103,7 +103,8 @@ public class RegisterUser extends AppCompatActivity implements View.OnClickListe
                                 @Override
                                 public void onComplete(@NonNull Task<Void> task) {
                                     if (task.isSuccessful())
-                                        Toast.makeText(RegisterUser.this,"User has been registered successfully!",Toast.LENGTH_LONG).show();
+                                        Toast.makeText(RegisterUser.this,"User has been registered successfully! " +
+                                                "Check your email to verify your account.",Toast.LENGTH_LONG).show();
                                     else
                                         Toast.makeText(RegisterUser.this,"Failed to register! Try again!",Toast.LENGTH_LONG).show();
                                 };
