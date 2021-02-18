@@ -14,6 +14,16 @@ android {
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        // Set the properties within `local.properties` into a `Properties` class so that values
+        // within `local.properties` (e.g. Maps API key) are accessible in this file.
+        Properties properties = new Properties()
+        if (rootProject.file("local.properties").exists()) {
+            properties.load(rootProject.file("local.properties").newDataInputStream())
+        }
+
+        // Inject the Maps API key into the manifest
+        manifestPlaceholders = [ mapsApiKey : properties.getProperty("MAPS_API_KEY", "") ]
     }
 
     buildTypes {
@@ -40,6 +50,7 @@ dependencies {
     implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0'
     implementation 'androidx.vectordrawable:vectordrawable:1.1.0'
     implementation 'androidx.navigation:navigation-runtime:2.3.3'
+    implementation 'com.google.android.gms:play-services-maps:17.0.0'
     testImplementation 'junit:junit:4.13.1'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
@@ -54,4 +65,5 @@ dependencies {
     implementation 'com.journeyapps:zxing-android-embedded:3.6.0'
     // implementation "androidx.navigation:navigation-fragment-ktx:2.3.3"
     // implementation "androidx.navigation:navigation-ui-ktx:2.3.3"
+    implementation 'com.google.android.gms:play-services-location:17.1.0'
 }
