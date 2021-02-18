@@ -24,8 +24,6 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import org.w3c.dom.Text;
-
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     private Button login;
     private TextView register,forgotPassword;
@@ -97,7 +95,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         // casting global user data to string
         String email = user_email.getText().toString().trim();
         String password = user_password.getText().toString().trim();
-
 
         // if input data is invalid, do nothing
         if (validityCheck(email, password))

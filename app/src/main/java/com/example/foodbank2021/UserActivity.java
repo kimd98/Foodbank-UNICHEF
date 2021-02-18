@@ -5,7 +5,9 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.drawerlayout.widget.DrawerLayout;
@@ -17,11 +19,18 @@ import androidx.navigation.ui.NavigationUI;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 public class UserActivity extends AppCompatActivity {
 
     private AppBarConfiguration mAppBarConfiguration;
     private MenuItem item;
+    private String user_uid= FirebaseAuth.getInstance().getCurrentUser().getUid();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,7 +79,30 @@ public class UserActivity extends AppCompatActivity {
         finish();
     }
     public void qrcode(MenuItem item){
-        startActivity(new Intent(UserActivity.this,createQRcode.class));
+        if (checkVerified(user_uid)) {
+            startActivity(new Intent(UserActivity.this, createQRcode.class));
+        }
+    }
 
+    public boolean checkVerified (String checkUid) {
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Users");
+        DatabaseReference userRef = databaseReference.child(user_uid);
+        final boolean[] verified = {true};
+
+        userRef.addValueEventListener(new ValueEventListener() {    // attach a listener to get "as" value
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.child("verified").getValue(String.class).equals("no")) {
+                    Toast.makeText(UserActivity.this,"Please verify your account.",Toast.LENGTH_LONG).show();
+                    verified[0] = false;
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                // do nothing
+            }
+        };
+        return verified[0];
     }
 }
