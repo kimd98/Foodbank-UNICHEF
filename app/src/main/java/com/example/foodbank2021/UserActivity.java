@@ -89,11 +89,11 @@ public class UserActivity extends AppCompatActivity {
         DatabaseReference userRef = databaseReference.child(user_uid);
         final boolean[] verified = {true};
 
-        userRef.addValueEventListener(new ValueEventListener() {    // attach a listener to get "as" value
+        ValueEventListener valueEventListener = userRef.addValueEventListener(new ValueEventListener() {    // attach a listener to get "as" value
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (snapshot.child("verified").getValue(String.class).equals("no")) {
-                    Toast.makeText(UserActivity.this,"Please verify your account.",Toast.LENGTH_LONG).show();
+                    Toast.makeText(UserActivity.this, "Please verify your account.", Toast.LENGTH_LONG).show();
                     verified[0] = false;
                 }
             }
@@ -102,7 +102,7 @@ public class UserActivity extends AppCompatActivity {
             public void onCancelled(@NonNull DatabaseError error) {
                 // do nothing
             }
-        };
+        });
         return verified[0];
     }
 }

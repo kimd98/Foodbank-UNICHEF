@@ -21,6 +21,7 @@
             android:value="${mapsApiKey}" />
 
         <activity android:name=".createQRcode"></activity>
+        <activity android:name=".LoginActivity" />
         <activity android:name=".ForgotPassword" />
         <activity android:name=".RegisterUser" />
         <activity
