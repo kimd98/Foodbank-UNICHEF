@@ -17,4 +17,6 @@
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
     <string name="remember_me">Remember me</string>
+    <string name="map">map</string>
+    <string name="Map" />
 </resources>

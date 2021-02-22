@@ -22,7 +22,6 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     public void onMapReady (GoogleMap googleMap) {
         Toast.makeText(this, "Map is Ready", Toast.LENGTH_SHORT).show();
         Log.d(TAG, "onMapReady: ready");
-        mMap = googleMap;
     }
 
     private static final String TAG = "MapActivity";
@@ -31,7 +30,6 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 1234;
 
     private Boolean mLocationPermissionsGranted = false;
-    private GoogleMap mMap;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -42,6 +40,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     private void initMap() {
         Log.d(TAG, "initMap: Initializing map");
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
+        assert mapFragment != null;
         mapFragment.getMapAsync(MapActivity.this);
     }
 
@@ -67,21 +66,19 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         mLocationPermissionsGranted = false;
         Log.d(TAG, "onRequestPermissionsResult: called");
 
-        switch (requestCode) {
-            case LOCATION_PERMISSION_REQUEST_CODE: {
-                if (grantResults.length > 0) {
-                    for (int i = 0; i < grantResults.length; i++) {
-                        if (grantResults[i] != PackageManager.PERMISSION_GRANTED) {
-                            mLocationPermissionsGranted = false;
-                            Log.d(TAG, "permission failed");
-                            break;
-                        }
+        if (requestCode == LOCATION_PERMISSION_REQUEST_CODE) {
+            if (grantResults.length > 0) {
+                for (int i = 0; i < grantResults.length; i++) {
+                    if (grantResults[i] != PackageManager.PERMISSION_GRANTED) {
+                        mLocationPermissionsGranted = false;
+                        Log.d(TAG, "permission failed");
+                        break;
                     }
-                    mLocationPermissionsGranted = true;
-                    Log.d(TAG, "permission granted");
-                    // initialize map
-                    initMap();
                 }
+                mLocationPermissionsGranted = true;
+                Log.d(TAG, "permission granted");
+                // initialize map
+                initMap();
             }
         }
     }

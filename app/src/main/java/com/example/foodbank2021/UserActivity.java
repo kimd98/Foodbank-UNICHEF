@@ -30,7 +30,7 @@ public class UserActivity extends AppCompatActivity {
 
     private AppBarConfiguration mAppBarConfiguration;
     private MenuItem item;
-    private String user_uid= FirebaseAuth.getInstance().getCurrentUser().getUid();
+    private final String user_uid= FirebaseAuth.getInstance().getCurrentUser().getUid();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -19,7 +19,7 @@
         android:textStyle="bold"
         android:paddingVertical="100dp"
         android:inputType="textPersonName"
-        android:textSize="50sp"
+        android:textSize="45sp"
         android:text="U N I C H E F"
         android:background="@null"
         tools:ignore="HardcodedText,LabelFor"
