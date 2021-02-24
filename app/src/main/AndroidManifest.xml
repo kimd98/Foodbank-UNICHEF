@@ -19,14 +19,15 @@
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="${mapsApiKey}" />
-
-        <activity android:name=".createQRcode"></activity>
+        <activity android:name=".MapActivity"/>
+        <activity android:name=".createQRcode" />
         <activity android:name=".LoginActivity" />
         <activity android:name=".ForgotPassword" />
         <activity android:name=".RegisterUser" />
         <activity
             android:name=".AdminActivity"
-            android:label="@string/title_activity_admin" />
+            android:label="@string/title_activity_admin"
+            android:theme="@style/Theme.Foodbank2021.NoActionBar" />
         <activity
             android:name=".UserActivity"
             android:label="@string/title_activity_user"
@@ -34,11 +35,9 @@
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".MapActivity"/>
     </application>
 
 </manifest>
