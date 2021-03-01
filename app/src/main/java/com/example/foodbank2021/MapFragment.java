@@ -12,8 +12,6 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
-import com.example.foodbank2021.MapActivity;
-import com.example.foodbank2021.R;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 
@@ -30,7 +28,7 @@ public class MapFragment extends Fragment {
             Intent intent = new Intent(getActivity(), MapActivity.class);
             startActivity(intent);
         }
-        return inflater.inflate(R.layout.admin_fragment_map, container, false);
+        return inflater.inflate(R.layout.fragment_map, container, false);
     }
 
     // check Google Play Services for Map activity

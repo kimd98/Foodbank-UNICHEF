@@ -34,7 +34,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.admin_fragment_map);
+        setContentView(R.layout.fragment_map);
     }
 
     private void initMap() {

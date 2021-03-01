@@ -9,17 +9,17 @@
         android:id="@+id/navigation_home"
         android:name="com.example.foodbank2021.HomeFragment"
         android:label="@string/title_home"
-        tools:layout="@layout/admin_fragment_home" />
+        tools:layout="@layout/fragment_home" />
 
     <fragment
         android:id="@+id/navigation_map"
         android:name="com.example.foodbank2021.MapFragment"
         android:label="@string/Map"
-        tools:layout="@layout/admin_fragment_map" />
+        tools:layout="@layout/fragment_map" />
 
     <fragment
         android:id="@+id/navigation_notifications"
         android:name="com.example.foodbank2021.ForgotPassword$NotificationsFragment"
         android:label="@string/title_notifications"
-        tools:layout="@layout/admin_fragment_notifications" />
+        tools:layout="@layout/fragment_notifications" />
 </navigation>

@@ -72,7 +72,7 @@ public class ForgotPassword extends AppCompatActivity {
 
         public View onCreateView(@NonNull LayoutInflater inflater,
                                  ViewGroup container, Bundle savedInstanceState) {
-            View root = inflater.inflate(R.layout.admin_fragment_notifications, container, false);
+            View root = inflater.inflate(R.layout.fragment_notifications, container, false);
             return root;
         }
     }
