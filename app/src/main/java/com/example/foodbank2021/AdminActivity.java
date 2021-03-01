@@ -9,8 +9,6 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
-import com.example.foodbank2021.admin_ui.MapFragment;
-import com.example.foodbank2021.admin_ui.NotificationsFragment;
 import com.example.foodbank2021.user_ui.HomeFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -43,7 +41,10 @@ public class AdminActivity extends AppCompatActivity {
                             selectedFragment = new MapFragment();
                             break;
                         case R.id.navigation_notifications:
-                            selectedFragment = new NotificationsFragment();
+                            selectedFragment = new ForgotPassword.NotificationsFragment();
+                            break;
+                        case R.id.navigation_messenger:
+                            selectedFragment = new MessengerFragment();
                             break;
                     }
                     assert selectedFragment != null;

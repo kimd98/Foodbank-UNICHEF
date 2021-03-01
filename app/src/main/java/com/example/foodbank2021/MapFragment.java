@@ -1,4 +1,4 @@
-package com.example.foodbank2021.admin_ui;
+package com.example.foodbank2021;
 
 import android.app.Dialog;
 import android.content.Intent;
