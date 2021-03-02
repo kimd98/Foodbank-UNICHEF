@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import androidx.annotation.NonNull;
@@ -21,68 +22,32 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class HomeFragment extends Fragment {
-    ListView foodlist;
-    FloatingActionButton donate;
 
-    DatabaseReference rootRef = FirebaseDatabase.getInstance().getReference();
-    DatabaseReference foodRef = rootRef.child("Food");
+    // need change to firebase real time database
+    Food chocolate = new Food("Chocolate", "2" , "Anonymous", "None",
+            "03/05/2021", "0");
+    Food flower = new Food("Flower Cake", "4" , "Lena", "None",
+            "05/05/2021", "2");
+    Food kimchi = new Food("Kimchi Fried Rice", "1" , "Anonymous", "None",
+            "03/05/2021", "1");
 
-    List<Food> foodArrayList = new ArrayList<>();
-    MainArrayAdapter adapter;
+    private String[] foodArrayList = {chocolate.getName(), flower.getName(), kimchi.getName()};
+    private ListView listview;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
         View root = inflater.inflate(R.layout.fragment_home, container, false);
+        listview = root.findViewById(R.id.foodlist);
 
-        foodlist = getView().findViewById(R.id.foodlist);
-        donate = getView().findViewById(R.id.donate);
-
-        adapter = new MainArrayAdapter(getContext(), foodArrayList);
-        foodlist.setAdapter(adapter);
-        
+        showList();
         return root;
     }
 
-    @Override
-    public void onStart() {
-        super.onStart();
+    public void showList() {
 
-        foodRef.addChildEventListener(new ChildEventListener() {
-            @Override
-            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-
-                String name = snapshot.child("name").getValue(String.class);
-                String amount = snapshot.child("amount").getValue(String.class);
-                String donator = snapshot.child("donator").getValue(String.class);
-                String receiver = snapshot.child("receiver").getValue(String.class);
-                String expireDate = snapshot.child("expireDate").getValue(String.class);
-                String fridge = snapshot.child("fridge").getValue(String.class);
-
-                Food foodNew = new Food (name, amount, donator, receiver, expireDate, fridge);
-                foodArrayList.add(foodNew);
-
-                adapter.notifyDataSetChanged();
-            }
-
-            @Override
-            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-            }
-
-            @Override
-            public void onChildRemoved(@NonNull DataSnapshot snapshot) {
-
-            }
-
-            @Override
-            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-            }
-        });
-
-
+        ArrayAdapter adapter = new ArrayAdapter<>(getContext(),
+                R.layout.activity_listview, R.id.textView, foodArrayList);
+        listview.setAdapter(adapter);
     }
 }

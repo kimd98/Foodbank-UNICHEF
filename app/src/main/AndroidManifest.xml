@@ -20,7 +20,7 @@
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="${mapsApiKey}" />
+            android:value="AIzaSyDW3i5jCXLjaet4x5MLn6bEIHOBwuGTuu0" />
         <activity android:name=".MapActivity"/>
         <activity android:name=".createQRcode" />
         <activity android:name=".LoginActivity" />

@@ -7,23 +7,38 @@ import android.view.MenuItem;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class AdminActivity extends AppCompatActivity {
 
+    Toolbar toolbar;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.admin_activity_admin);
 
+        // fragment title tool bar
+        toolbar = findViewById(R.id.toolbar);
+
+        // instantiated landing page
+        if (savedInstanceState == null) {
+            toolbar.setTitle("Home");
+            getSupportFragmentManager().beginTransaction()
+                    .setReorderingAllowed(true)
+                    .add(R.id.fragment_container, HomeFragment.class, null)
+                    .commit();
+        }
+
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         BottomNavigationView navView = findViewById(R.id.bottom_nav);
         navView.setOnNavigationItemSelectedListener(navListener);
-
     }
+
 
     // bottom action bar landing fragments
     private final BottomNavigationView.OnNavigationItemSelectedListener navListener =
@@ -31,18 +46,25 @@ public class AdminActivity extends AppCompatActivity {
                 @SuppressLint("NonConstantResourceId")
                 @Override
                 public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                    Fragment selectedFragment = null;
+                    Fragment selectedFragment;
+
                     switch (item.getItemId()) {
                         case R.id.navigation_home:
                             selectedFragment = new HomeFragment();
+                            toolbar.setTitle("Home");
                             break;
                         case R.id.navigation_map:
                             selectedFragment = new MapFragment();
+                            toolbar.setTitle("Map");
                             break;
                         case R.id.navigation_notifications:
                             selectedFragment = new NotificationsFragment();
+                            toolbar.setTitle("Notifications");
                             break;
+                        default:
+                            throw new IllegalStateException("Unexpected value: " + item.getItemId());
                     }
+
                     assert selectedFragment != null;
                     getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                             selectedFragment).commit();

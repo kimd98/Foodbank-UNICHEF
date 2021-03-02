@@ -25,10 +25,9 @@ public class MapFragment extends Fragment {
                              ViewGroup container, Bundle savedInstanceState) {
         // if google play services is available, open map
         if (isServicesOK()) {
-            Intent intent = new Intent(getActivity(), MapActivity.class);
-            startActivity(intent);
+            return inflater.inflate(R.layout.fragment_map, container, false);
         }
-        return inflater.inflate(R.layout.fragment_map, container, false);
+        return null;
     }
 
     // check Google Play Services for Map activity
