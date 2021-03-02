@@ -1,5 +1,6 @@
 package com.example.foodbank2021;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
@@ -11,11 +12,13 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;
@@ -30,28 +33,78 @@ public class UserActivity extends AppCompatActivity {
 
     private AppBarConfiguration mAppBarConfiguration;
     private MenuItem item;
+    Toolbar toolbar;
     private final String user_uid= FirebaseAuth.getInstance().getCurrentUser().getUid();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.user_activity_user);
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
 
-        DrawerLayout drawer = findViewById(R.id.drawer_layout);
-        NavigationView navigationView = findViewById(R.id.side_nav);
+        // fragment title tool bar
+        toolbar = findViewById(R.id.toolbar);
+
+        // instantiated landing page
+        if (savedInstanceState == null) {
+            toolbar.setTitle("Home");
+            getSupportFragmentManager().beginTransaction()
+                    .setReorderingAllowed(true)
+                    .add(R.id.fragment_container, HomeFragment.class, null)
+                    .commit();
+        }
 
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
+        BottomNavigationView navView = findViewById(R.id.bottom_nav);
+        navView.setOnNavigationItemSelectedListener(navListener);
+
+        /*
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
+        NavigationView navigationView = findViewById(R.id.side_nav);
         mAppBarConfiguration = new AppBarConfiguration.Builder(
                 R.id.nav_home, R.id.nav_profile, R.id.nav_qrcode)
                 .setDrawerLayout(drawer)
                 .build();
-        //NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
-        //NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
-        //NavigationUI.setupWithNavController(navigationView, navController);
+        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
+        NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
+        NavigationUI.setupWithNavController(navigationView, navController);
+         */
     }
+
+    // bottom action bar landing fragments
+    private final BottomNavigationView.OnNavigationItemSelectedListener navListener =
+            new BottomNavigationView.OnNavigationItemSelectedListener() {
+                @SuppressLint("NonConstantResourceId")
+                @Override
+                public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                    Fragment selectedFragment = new HomeFragment();
+
+                    switch (item.getItemId()) {
+                        case R.id.navigation_home:
+                            selectedFragment = new HomeFragment();
+                            toolbar.setTitle("Home");
+                            break;
+                        case R.id.navigation_map:
+                            selectedFragment = new MapFragment();
+                            toolbar.setTitle("Map");
+                            break;
+                        case R.id.navigation_notifications:
+                            selectedFragment = new NotificationsFragment();
+                            toolbar.setTitle("Notifications");
+                            break;
+                        case R.id.navigation_messenger:
+                            selectedFragment = new MessengerFragment();
+                            toolbar.setTitle("Messenger");
+                            break;
+                        default:
+                            throw new IllegalStateException("Unexpected value: " + item.getItemId());
+                    }
+
+                    getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                            selectedFragment).commit();
+                    return true;
+                }
+            };
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -60,12 +113,14 @@ public class UserActivity extends AppCompatActivity {
         return true;
     }
 
+    /*
     @Override
     public boolean onSupportNavigateUp() {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         return NavigationUI.navigateUp(navController, mAppBarConfiguration)
                 || super.onSupportNavigateUp();
     }
+     */
 
     public void logout(MenuItem item) {
         startActivity(new Intent(UserActivity.this, MainActivity.class));

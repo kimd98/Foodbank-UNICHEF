@@ -18,6 +18,8 @@ import com.google.android.gms.maps.SupportMapFragment;
 
 public class MapActivity extends AppCompatActivity implements OnMapReadyCallback {
 
+    // unused
+
     @Override
     public void onMapReady (GoogleMap googleMap) {
         Toast.makeText(this, "Map is Ready", Toast.LENGTH_SHORT).show();

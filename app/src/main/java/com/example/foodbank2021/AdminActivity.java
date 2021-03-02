@@ -72,6 +72,7 @@ public class AdminActivity extends AppCompatActivity {
                 }
             };
 
+    // left for the side menu
     public void logout(MenuItem item) {
         startActivity(new Intent(AdminActivity.this, MainActivity.class));
         preferences.clearData(this);
