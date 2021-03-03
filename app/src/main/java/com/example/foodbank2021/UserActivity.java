@@ -5,23 +5,19 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
-import androidx.navigation.ui.NavigationUI;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
-import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -31,9 +27,13 @@ import com.google.firebase.database.ValueEventListener;
 
 public class UserActivity extends AppCompatActivity {
 
+    Toolbar toolbar;
+
+    private DrawerLayout drawerLayout;
+    private NavigationView navigationView;
     private AppBarConfiguration mAppBarConfiguration;
     private MenuItem item;
-    Toolbar toolbar;
+
     private final String user_uid= FirebaseAuth.getInstance().getCurrentUser().getUid();
 
     @Override
@@ -43,6 +43,11 @@ public class UserActivity extends AppCompatActivity {
 
         // fragment title tool bar
         toolbar = findViewById(R.id.toolbar);
+
+        // side bar
+        drawerLayout=findViewById(R.id.drawer_layout);
+        navigationView=findViewById(R.id.nav_view);
+        //setSupportActionBar(toolbar);
 
         // instantiated landing page
         if (savedInstanceState == null) {
@@ -58,18 +63,49 @@ public class UserActivity extends AppCompatActivity {
         BottomNavigationView navView = findViewById(R.id.bottom_nav);
         navView.setOnNavigationItemSelectedListener(navListener);
 
-        /*
-        DrawerLayout drawer = findViewById(R.id.drawer_layout);
-        NavigationView navigationView = findViewById(R.id.side_nav);
-        mAppBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.nav_home, R.id.nav_profile, R.id.nav_qrcode)
-                .setDrawerLayout(drawer)
-                .build();
-        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
-        NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
-        NavigationUI.setupWithNavController(navigationView, navController);
-         */
+        navigationView.bringToFront();
+        ActionBarDrawerToggle toggle=new ActionBarDrawerToggle(this,drawerLayout,toolbar,R.string.navigation_drawer_open,R.string.navigation_drawer_close);
+        drawerLayout.addDrawerListener(toggle);
+        toggle.syncState();
+        navigationView.setNavigationItemSelectedListener(sidenavListener);
     }
+
+    public void onBackPressed() {
+        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
+            drawerLayout.closeDrawer(GravityCompat.START);
+        } else {
+            super.onBackPressed();
+        }
+    }
+
+    private final NavigationView.OnNavigationItemSelectedListener sidenavListener=
+            new NavigationView.OnNavigationItemSelectedListener() {
+
+                @Override
+                public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                    switch (item.getItemId()) {
+                        case R.id.nav_home:
+                            startActivity(new Intent(UserActivity.this, UserActivity.class));
+                            break;
+                        case R.id.nav_profile:
+                            startActivity(new Intent(UserActivity.this, ProfileActivity.class));
+                            break;
+                        case R.id.nav_qrcode:
+                            if (checkVerified(user_uid)) {
+                                startActivity(new Intent(UserActivity.this, createQRcode.class));
+                                break;
+                            } else {
+                                Toast.makeText(UserActivity.this, "Please verify your account first!",
+                                        Toast.LENGTH_LONG).show();
+                            }
+                        case R.id.nav_logout:
+                            startActivity(new Intent(UserActivity.this, MainActivity.class));
+                            break;
+                    }
+                    drawerLayout.closeDrawer(GravityCompat.START);
+                    return true;
+                }
+            };
 
     // bottom action bar landing fragments
     private final BottomNavigationView.OnNavigationItemSelectedListener navListener =
@@ -112,15 +148,6 @@ public class UserActivity extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.user, menu);
         return true;
     }
-
-    /*
-    @Override
-    public boolean onSupportNavigateUp() {
-        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
-        return NavigationUI.navigateUp(navController, mAppBarConfiguration)
-                || super.onSupportNavigateUp();
-    }
-     */
 
     public void logout(MenuItem item) {
         startActivity(new Intent(UserActivity.this, MainActivity.class));
