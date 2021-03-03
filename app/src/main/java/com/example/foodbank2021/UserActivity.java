@@ -47,8 +47,12 @@ public class UserActivity extends AppCompatActivity {
         // side bar
         drawerLayout=findViewById(R.id.drawer_layout);
         navigationView=findViewById(R.id.nav_view);
-        //setSupportActionBar(toolbar);
-
+        setSupportActionBar(toolbar);
+        navigationView.bringToFront();
+        ActionBarDrawerToggle toggle=new ActionBarDrawerToggle(this,drawerLayout,toolbar,R.string.navigation_drawer_open,R.string.navigation_drawer_close);
+        drawerLayout.addDrawerListener(toggle);
+        toggle.syncState();
+        navigationView.setNavigationItemSelectedListener(sidenavListener);
         // instantiated landing page
         if (savedInstanceState == null) {
             toolbar.setTitle("Home");
@@ -63,11 +67,7 @@ public class UserActivity extends AppCompatActivity {
         BottomNavigationView navView = findViewById(R.id.bottom_nav);
         navView.setOnNavigationItemSelectedListener(navListener);
 
-        navigationView.bringToFront();
-        ActionBarDrawerToggle toggle=new ActionBarDrawerToggle(this,drawerLayout,toolbar,R.string.navigation_drawer_open,R.string.navigation_drawer_close);
-        drawerLayout.addDrawerListener(toggle);
-        toggle.syncState();
-        navigationView.setNavigationItemSelectedListener(sidenavListener);
+
     }
 
     public void onBackPressed() {
@@ -85,7 +85,7 @@ public class UserActivity extends AppCompatActivity {
                 public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                     switch (item.getItemId()) {
                         case R.id.nav_home:
-                            startActivity(new Intent(UserActivity.this, UserActivity.class));
+//                            startActivity(new Intent(UserActivity.this, UserActivity.class));
                             break;
                         case R.id.nav_profile:
                             startActivity(new Intent(UserActivity.this, ProfileActivity.class));

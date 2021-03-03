@@ -26,6 +26,7 @@
         <activity android:name=".LoginActivity" />
         <activity android:name=".ForgotPassword" />
         <activity android:name=".RegisterUser" />
+        <activity android:name=".ProfileActivity" />
         <activity
             android:name=".AdminActivity"
             android:label="@string/title_activity_admin"
