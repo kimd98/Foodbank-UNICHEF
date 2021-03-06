@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -33,7 +34,6 @@ public class UserActivity extends AppCompatActivity {
     private NavigationView navigationView;
     private AppBarConfiguration mAppBarConfiguration;
     private MenuItem item;
-
     private final String user_uid= FirebaseAuth.getInstance().getCurrentUser().getUid();
 
     @Override

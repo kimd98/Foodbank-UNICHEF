@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -21,11 +22,20 @@ import com.google.firebase.database.ValueEventListener;
 
 import org.w3c.dom.Text;
 
+import java.util.Map;
+
 public class ProfileActivity extends AppCompatActivity {
-    private FirebaseUser user;
-    private DatabaseReference reference;
-    private String userID;
+    private TextView nameTxtView, emailTxtView, accountTxtView;
+    private ImageView userImageView, emailImageView, accountImageView;
+    private final String TAG = this.getClass().getName().toUpperCase();
+    private FirebaseDatabase database;
+    private DatabaseReference mDatabase;
+    private Map<String, String> userMap;
+    private String email;
+    private String userid;
+    private static final String USERS = "Users";
     private Button verify_now;
+    private final String user_uid= FirebaseAuth.getInstance().getCurrentUser().getUid();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,39 +48,46 @@ public class ProfileActivity extends AppCompatActivity {
 
             }
         });
+//        Intent intent = getIntent();
+//        email = intent.getStringExtra("email");
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference databaseRef = database.getReference("Users");
+        DatabaseReference userRef = databaseRef.child(user_uid);//
+//        DatabaseReference userRef = rootRef.child(USERS);
+        //Log.v("USERID", userRef.getKey());
 
-        user= FirebaseAuth.getInstance().getCurrentUser();
-        reference=FirebaseDatabase.getInstance().getReference("Users");
-        userID=user.getUid();
+        nameTxtView=findViewById(R.id.name_textview);
+        emailTxtView=findViewById(R.id.email_textview);
+        accountTxtView=findViewById(R.id.account_textview);
 
-        final TextView fullNameTextView=(TextView)findViewById(R.id.nameview);
-        final TextView emailTextView=(TextView)findViewById(R.id.email_textview);
-        final TextView verifyTextView=(TextView)findViewById(R.id.account_textview);
-        reference.child(userID).addListenerForSingleValueEvent(new ValueEventListener() {
+        userImageView=findViewById(R.id.user_imageview);
+        emailImageView=findViewById(R.id.email_imageview);
+        accountImageView=findViewById(R.id.account_imageview);
+
+
+        userRef.addValueEventListener(new ValueEventListener() {
+            String fname, mail,verify;
             @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                User userProfile=snapshot.getValue(User.class);
-
-                if(userProfile!=null){
-                    String fullName=userProfile.firstName;
-                    String email=userProfile.email;
-                    String check_verify=userProfile.verified;
-
-                    fullNameTextView.setText(fullName);
-                    emailTextView.setText(email);
-                    verifyTextView.setText(check_verify);
-
-
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot keyId: dataSnapshot.getChildren()) {
+                    if (keyId.child("email").getValue().equals(email)) {
+                        fname = keyId.child("firstName").getValue(String.class);
+                        email=keyId.child("email").getValue(String.class);
+                        verify = keyId.child("verified").getValue(String.class);
+                        break;
+                    }
                 }
+                nameTxtView.setText(fname);
+                emailTxtView.setText(email);
+                accountTxtView.setText(verify);
             }
 
             @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                Toast.makeText(ProfileActivity.this,"Something wrong happend!",Toast.LENGTH_LONG).show();
-
+            public void onCancelled(DatabaseError error) {
+                // Failed to read value
+                Log.w(TAG, "Failed to read value.", error.toException());
             }
         });
-
 
     }
 }
