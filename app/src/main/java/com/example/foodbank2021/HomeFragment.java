@@ -1,6 +1,5 @@
 package com.example.foodbank2021;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -13,38 +12,52 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.zxing.client.result.BookmarkDoCoMoResultParser;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class HomeFragment extends Fragment {
 
-    // need change to firebase real time database
-    Food chocolate = new Food("Chocolate", "2" , "Anonymous", "None",
-            "03/05/2021", "0");
-    Food flower = new Food("Flower Cake", "4" , "Lena", "None",
-            "05/05/2021", "2");
-    Food kimchi = new Food("Kimchi Fried Rice", "1" , "Anonymous", "None",
-            "03/05/2021", "1");
+    private ArrayList<String> nameList = new ArrayList<>();
+    private ArrayList<String> amountList = new ArrayList<>();
+    private ArrayList<String> locationList = new ArrayList<>();
 
-    private String[] foodArrayList = {chocolate.getName(), flower.getName(), kimchi.getName()};
     private ListView listview;
-
     PopupWindow popUp;
     boolean click = true;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
+
+        DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference();
+        dbRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                DataSnapshot fridgesn = snapshot.child("Fridge");
+
+                for (DataSnapshot dataSnapshot : snapshot.child("Food").getChildren()) {
+                    String name = dataSnapshot.child("name").getValue().toString();
+                    String amount = dataSnapshot.child("name").getValue().toString();
+                    String fridge = dataSnapshot.child("fridge").getValue().toString();
+                    String location = fridgesn.child(fridge).child("location").getValue().toString();
+                    nameList.add(name);
+                    amountList.add(amount);
+                    locationList.add(location);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                // do nothing
+            }
+        });
 
         View root = inflater.inflate(R.layout.fragment_home, container, false);
         listview = root.findViewById(R.id.foodlist);
@@ -84,8 +97,15 @@ public class HomeFragment extends Fragment {
     }
 
     public void showList() {
-        ArrayAdapter adapter = new ArrayAdapter<>(getContext(),
-                R.layout.activity_listview, R.id.textView, foodArrayList);
-        listview.setAdapter(adapter);
+        ArrayAdapter adapter1 = new ArrayAdapter<>(getContext(),
+                R.layout.activity_listview, R.id.name_textView, nameList);
+        ArrayAdapter adapter2 = new ArrayAdapter<>(getContext(),
+                R.layout.activity_listview, R.id.amount_textView, amountList);
+        ArrayAdapter adapter3 = new ArrayAdapter<>(getContext(),
+                R.layout.activity_listview, R.id.location_textView, locationList);
+
+        listview.setAdapter(adapter1);
+        listview.setAdapter(adapter2);
+        listview.setAdapter(adapter3);
     }
 }
