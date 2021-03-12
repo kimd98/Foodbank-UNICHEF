@@ -44,7 +44,7 @@ public class HomeFragment extends Fragment {
 
                 for (DataSnapshot dataSnapshot : snapshot.child("Food").getChildren()) {
                     String name = dataSnapshot.child("name").getValue().toString();
-                    String amount = dataSnapshot.child("name").getValue().toString();
+                    String amount = dataSnapshot.child("amount").getValue().toString();
                     String fridge = dataSnapshot.child("fridge").getValue().toString();
                     String location = fridgesn.child(fridge).child("location").getValue().toString();
                     nameList.add(name);
@@ -91,7 +91,6 @@ public class HomeFragment extends Fragment {
 
         layout.addView(tv, params);
         popUp.setContentView(layout);
-        //popUp.showAtLocation(layout, Gravity.CENTER, 0, 0);
 
         return root;
     }

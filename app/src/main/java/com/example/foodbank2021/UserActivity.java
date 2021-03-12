@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -66,8 +65,6 @@ public class UserActivity extends AppCompatActivity {
         // menu should be considered as top level destinations.
         BottomNavigationView navView = findViewById(R.id.bottom_nav);
         navView.setOnNavigationItemSelectedListener(navListener);
-
-
     }
 
     public void onBackPressed() {
@@ -85,7 +82,7 @@ public class UserActivity extends AppCompatActivity {
                 public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                     switch (item.getItemId()) {
                         case R.id.nav_home:
-//                            startActivity(new Intent(UserActivity.this, UserActivity.class));
+//                          startActivity(new Intent(UserActivity.this, UserActivity.class));
                             break;
                         case R.id.nav_profile:
                             startActivity(new Intent(UserActivity.this, ProfileActivity.class));

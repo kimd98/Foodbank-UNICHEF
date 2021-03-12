@@ -11,4 +11,8 @@ public class User {
         this.as = as;
         this.verified = verified;
     }
+
+    public String getEmail() {
+        return this.email;
+    }
 }
