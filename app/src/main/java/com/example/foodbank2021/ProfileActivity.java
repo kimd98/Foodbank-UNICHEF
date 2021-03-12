@@ -16,7 +16,6 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import java.util.Map;
 import java.util.Objects;
 
 public class ProfileActivity extends AppCompatActivity {
@@ -24,30 +23,25 @@ public class ProfileActivity extends AppCompatActivity {
     private ImageView userImageView, emailImageView, accountImageView;
     private final String TAG = this.getClass().getName().toUpperCase();
     private FirebaseDatabase database;
-    private DatabaseReference mDatabase;
-    private Map<String, String> userMap;
-    private String email;
-    private String userid;
-    private static final String USERS = "Users";
+    private DatabaseReference databaseRef;
     private Button verify_now;
-
-    private final String user_uid= FirebaseAuth.getInstance().getCurrentUser().getUid();
-    private final String user_email= FirebaseAuth.getInstance().getCurrentUser().getEmail();
+    private String user_email;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
-        verify_now=(Button) findViewById(R.id.verify);
+        verify_now= findViewById(R.id.verify);
         verify_now.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                // go to passport
             }
         });
 
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference databaseRef = database.getReference("Users");
+        database = FirebaseDatabase.getInstance();
+        databaseRef = database.getReference("Users");
+        user_email= FirebaseAuth.getInstance().getCurrentUser().getEmail();
 
         nameTxtView=findViewById(R.id.name_textview);
         emailTxtView=findViewById(R.id.email_textview);
