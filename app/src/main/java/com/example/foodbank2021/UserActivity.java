@@ -42,16 +42,17 @@ public class UserActivity extends AppCompatActivity {
 
         // fragment title tool bar
         toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
 
         // side bar
         drawerLayout=findViewById(R.id.drawer_layout);
         navigationView=findViewById(R.id.nav_view);
-        setSupportActionBar(toolbar);
         navigationView.bringToFront();
         ActionBarDrawerToggle toggle=new ActionBarDrawerToggle(this,drawerLayout,toolbar,R.string.navigation_drawer_open,R.string.navigation_drawer_close);
         drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
         navigationView.setNavigationItemSelectedListener(sidenavListener);
+
         // instantiated landing page
         if (savedInstanceState == null) {
             toolbar.setTitle("Home");

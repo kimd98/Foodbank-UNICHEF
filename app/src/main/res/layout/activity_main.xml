@@ -46,12 +46,12 @@
         android:id="@+id/login"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="sign in"
+        android:text="s i g n   i n"
         android:textColor="@color/white"
         android:textSize="20sp"
         android:padding="20dp"
-        app:rippleColor="#C712CB"
-        android:backgroundTint="#C712CB"
+        app:rippleColor="@color/olive_transparent"
+        android:backgroundTint="@color/olive_transparent"
         tools:ignore="HardcodedText" />
 
     <Button
@@ -65,6 +65,5 @@
         android:paddingEnd="40dp"
         android:background="#07000000"
         tools:ignore="HardcodedText,RtlSymmetry" />
-
 
 </LinearLayout>

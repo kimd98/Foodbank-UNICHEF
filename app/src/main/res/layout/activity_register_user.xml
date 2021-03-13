@@ -4,24 +4,26 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/login"
     tools:context=".RegisterUser">
 
     <TextView
         android:id="@+id/banner"
-        android:layout_width="174dp"
+        android:layout_width="wrap_content"
         android:layout_height="86dp"
-        android:layout_marginStart="118dp"
         android:layout_marginTop="113dp"
-        android:layout_marginEnd="119dp"
         android:layout_marginBottom="532dp"
-        android:text="FOOD BANK"
+        android:text="U N I C H E F"
+        android:textAlignment="center"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        android:textColor="@color/white"
+        android:textSize="40dp"
+        android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintVertical_bias="1.0" />
 
     <LinearLayout
         android:layout_width="412dp"
@@ -38,14 +40,25 @@
             android:layout_height="wrap_content"
             android:ems="10"
             android:hint="First Name"
+            android:background="@drawable/input_text"
+            android:textColorHint="@color/white"
+            android:layout_marginLeft="30dp"
+            android:padding="10dp"
+            android:layout_marginTop="50dp"
+            android:layout_marginBottom="15dp"
             android:inputType="textPersonName" />
 
         <EditText
             android:id="@+id/Lastname"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:ems="10"
             android:hint="Last name"
+            android:layout_marginBottom="15dp"
+            android:background="@drawable/input_text"
+            android:textColorHint="@color/white"
+            android:layout_marginLeft="30dp"
+            android:padding="10dp"
             android:inputType="textPersonName" />
 
         <EditText
@@ -54,6 +67,12 @@
             android:layout_height="wrap_content"
             android:ems="10"
             android:hint="Email"
+            android:layout_marginBottom="15dp"
+            android:background="@drawable/input_text"
+            android:textColorHint="@color/white"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:padding="10dp"
             android:inputType="textEmailAddress" />
 
         <EditText
@@ -62,13 +81,27 @@
             android:layout_height="wrap_content"
             android:ems="10"
             android:hint="Password"
+            android:background="@drawable/input_text"
+            android:textColorHint="@color/white"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:padding="10dp"
             android:inputType="textPassword" />
 
         <Button
             android:id="@+id/registerUser"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Register" />
+            android:layout_marginStart="120dp"
+            android:layout_marginTop="50dp"
+            android:layout_marginEnd="120dp"
+            android:background="@drawable/button_login"
+            android:backgroundTint="@color/olive_transparent"
+            android:paddingLeft="40dp"
+            android:paddingRight="40dp"
+
+            android:text="R e g i s t e r"
+            android:textColor="@color/white" />
 
     </LinearLayout>
 
