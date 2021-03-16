@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -14,7 +16,6 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
-import androidx.navigation.ui.AppBarConfiguration;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
@@ -25,42 +26,61 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import static java.lang.Boolean.parseBoolean;
+
 public class UserActivity extends AppCompatActivity {
 
     Toolbar toolbar;
 
     private DrawerLayout drawerLayout;
     private NavigationView navigationView;
-    private AppBarConfiguration mAppBarConfiguration;
-    private MenuItem item;
     private final String user_uid= FirebaseAuth.getInstance().getCurrentUser().getUid();
+    private String user_name;
+    boolean verified = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.user_activity_user);
 
+        // find verified
+        DatabaseReference nameRef = FirebaseDatabase.getInstance().getReference("Users");
+        nameRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                    if (dataSnapshot.getValue() == user_uid) {
+                        verified = parseBoolean(dataSnapshot.child("verified").getValue().toString());
+                        break;
+                    }
+                }
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                // do nothing
+            }
+        });
+
         // fragment title tool bar
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        toolbar.setTitle("Home");
 
         // side bar
         drawerLayout=findViewById(R.id.drawer_layout);
         navigationView=findViewById(R.id.nav_view);
+
+        // display user email on drawer
+        String user_email= FirebaseAuth.getInstance().getCurrentUser().getEmail();
+        View headerView = navigationView.getHeaderView(0);
+        TextView textViewToChange = (TextView) headerView.findViewById(R.id.username);
+        textViewToChange.setText(user_email);
+
         navigationView.bringToFront();
         ActionBarDrawerToggle toggle=new ActionBarDrawerToggle(this,drawerLayout,toolbar,R.string.navigation_drawer_open,R.string.navigation_drawer_close);
         drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
         navigationView.setNavigationItemSelectedListener(sidenavListener);
-
-        // instantiated landing page
-        if (savedInstanceState == null) {
-            toolbar.setTitle("Home");
-            getSupportFragmentManager().beginTransaction()
-                    .setReorderingAllowed(true)
-                    .add(R.id.fragment_container, HomeFragment.class, null)
-                    .commit();
-        }
 
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
@@ -89,7 +109,7 @@ public class UserActivity extends AppCompatActivity {
                             startActivity(new Intent(UserActivity.this, ProfileActivity.class));
                             break;
                         case R.id.nav_qrcode:
-                            if (checkVerified(user_uid)) {
+                            if (verified) {
                                 startActivity(new Intent(UserActivity.this, createQRcode.class));
                                 break;
                             } else {
@@ -111,7 +131,7 @@ public class UserActivity extends AppCompatActivity {
                 @SuppressLint("NonConstantResourceId")
                 @Override
                 public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                    Fragment selectedFragment = new HomeFragment();
+                    Fragment selectedFragment;
 
                     switch (item.getItemId()) {
                         case R.id.navigation_home:
@@ -133,7 +153,6 @@ public class UserActivity extends AppCompatActivity {
                         default:
                             throw new IllegalStateException("Unexpected value: " + item.getItemId());
                     }
-
                     getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                             selectedFragment).commit();
                     return true;
@@ -153,30 +172,9 @@ public class UserActivity extends AppCompatActivity {
         finish();
     }
     public void qrcode(MenuItem item){
-        if (checkVerified(user_uid)) {
+        if (verified) {
             startActivity(new Intent(UserActivity.this, createQRcode.class));
         }
     }
 
-    public boolean checkVerified (String checkUid) {
-        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Users");
-        DatabaseReference userRef = databaseReference.child(user_uid);
-        final boolean[] verified = {true};
-
-        ValueEventListener valueEventListener = userRef.addValueEventListener(new ValueEventListener() {    // attach a listener to get "as" value
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if (snapshot.child("verified").getValue(String.class).equals("no")) {
-                    Toast.makeText(UserActivity.this, "Please verify your account.", Toast.LENGTH_LONG).show();
-                    verified[0] = false;
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                // do nothing
-            }
-        });
-        return verified[0];
-    }
 }

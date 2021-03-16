@@ -15,4 +15,10 @@ public class User {
     public String getEmail() {
         return this.email;
     }
+    public String getName() {
+        String first = this.firstName;
+        String last = this.lastName;
+        String name = first.concat(last);
+        return name;
+    }
 }

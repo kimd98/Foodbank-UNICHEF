@@ -58,7 +58,11 @@ public class ProfileActivity extends AppCompatActivity {
                     if (Objects.equals(keyId.child("email").getValue(String.class), user_email)) {
                         fname = keyId.child("firstName").getValue().toString();
                         email=keyId.child("email").getValue().toString();
-                        verify = keyId.child("verified").getValue().toString();
+
+                        if (keyId.child("verified").getValue().toString() == "yes")
+                            verify = "Verified Account";
+                        else
+                            verify = "Please verify your account!";
                         break;
                     }
                 }
