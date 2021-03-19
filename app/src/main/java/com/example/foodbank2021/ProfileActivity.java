@@ -60,9 +60,9 @@ public class ProfileActivity extends AppCompatActivity {
                         email=keyId.child("email").getValue().toString();
 
                         if (keyId.child("verified").getValue().toString() == "yes")
-                            verify = "Verified Account";
+                            verify = "Account Verified";
                         else
-                            verify = "Please verify your account!";
+                            verify = "Account Not Verified";
                         break;
                     }
                 }

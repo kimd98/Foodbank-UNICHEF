@@ -1,23 +1,27 @@
 package com.example.foodbank2021;
 
-import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.Menu;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.fragment.app.Fragment;
 
-import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -26,17 +30,19 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
+
 import static java.lang.Boolean.parseBoolean;
 
 public class UserActivity extends AppCompatActivity {
 
-    Toolbar toolbar;
-
     private DrawerLayout drawerLayout;
     private NavigationView navigationView;
     private final String user_uid= FirebaseAuth.getInstance().getCurrentUser().getUid();
-    private String user_name;
+
     boolean verified = false;
+    Toolbar toolbar;
+    FloatingActionButton donate;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,10 +88,93 @@ public class UserActivity extends AppCompatActivity {
         toggle.syncState();
         navigationView.setNavigationItemSelectedListener(sidenavListener);
 
-        // Passing each menu ID as a set of Ids because each
-        // menu should be considered as top level destinations.
-        BottomNavigationView navView = findViewById(R.id.bottom_nav);
-        navView.setOnNavigationItemSelectedListener(navListener);
+        // show the food list
+        showList();
+    }
+
+    public class MyAdapter extends ArrayAdapter<String> {
+        Context context;
+        String rName[];
+        String rLocation[];
+        int rImage[];
+
+        MyAdapter (Context c, String s1[], String s2[], int img[]) {
+            super(c, R.layout.row, R.id.foodname, s1);
+            this.context = c;
+            this.rName = s1;
+            this.rLocation = s2;
+            this.rImage = img;
+        }
+
+        @NonNull
+        @Override
+        public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+            LayoutInflater layoutInflater = (LayoutInflater) getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            View row = layoutInflater.inflate(R.layout.row, parent, false);
+            ImageView images = row.findViewById(R.id.image);
+            TextView name = row.findViewById(R.id.foodname);
+            TextView location = row.findViewById(R.id.location);
+
+            images.setImageResource(rImage[position]);
+            name.setText(rName[position]);
+            location.setText(rLocation[position]);
+
+            return row;
+        }
+    }
+
+    public void showList() {
+
+        ListView listView;
+        ArrayList<String> nameList = new ArrayList<>();
+        ArrayList<String> locationList = new ArrayList<>();
+        int image[] = {R.drawable.burger, R.drawable.ic_launcher_foreground};
+
+        DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference();
+        dbRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                DataSnapshot foodsn = snapshot.child("Food");
+                DataSnapshot fridgesn = snapshot.child("Fridge");
+
+                for (DataSnapshot dataSnapshot : foodsn.getChildren()) {
+                    String name_str = dataSnapshot.child("name").getValue().toString();
+                    String fridge_str = dataSnapshot.child("fridge").getValue().toString();
+                    String location_str = fridgesn.child(fridge_str).child("location").getValue().toString();
+
+                    nameList.add(name_str);
+                    locationList.add(location_str);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                // do nothing
+            }
+        });
+
+        String[] nameArr = (String[]) nameList.toArray(new String[0]);
+        String[] locationArr = (String[]) locationList.toArray(new String[0]);
+
+        MyAdapter adapter = new MyAdapter(this, nameArr, locationArr, image);
+        listView = findViewById(R.id.list_view);
+        listView.setAdapter(adapter);
+
+        donate = findViewById(R.id.donate);
+        /*donate.setOnClickListener(new View.OnClickListener() {
+            boolean click = true;
+
+            @Override
+            public void onClick(View v) {
+                if (click) {
+                    Toast.makeText(UserActivity.this, "Hello?", Toast.LENGTH_SHORT).show();
+                    click = false;
+                } else {
+                    click = true;
+                }
+            }
+        });
+         */
     }
 
     public void onBackPressed() {
@@ -125,6 +214,7 @@ public class UserActivity extends AppCompatActivity {
                 }
             };
 
+    /*
     // bottom action bar landing fragments
     private final BottomNavigationView.OnNavigationItemSelectedListener navListener =
             new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -135,26 +225,34 @@ public class UserActivity extends AppCompatActivity {
 
                     switch (item.getItemId()) {
                         case R.id.navigation_home:
-                            selectedFragment = new HomeFragment();
+                            startActivity(new Intent(UserActivity.this, UserActivity.class));
+                            donate.show();
                             toolbar.setTitle("Home");
                             break;
                         case R.id.navigation_map:
                             selectedFragment = new MapFragment();
+                            donate.hide();
                             toolbar.setTitle("Map");
+                            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                                    selectedFragment).commit();
                             break;
                         case R.id.navigation_notifications:
                             selectedFragment = new NotificationsFragment();
+                            donate.hide();
                             toolbar.setTitle("Notifications");
+                            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                                    selectedFragment).commit();
                             break;
                         case R.id.navigation_messenger:
                             selectedFragment = new MessengerFragment();
+                            donate.hide();
                             toolbar.setTitle("Messenger");
+                            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                                    selectedFragment).commit();
                             break;
                         default:
                             throw new IllegalStateException("Unexpected value: " + item.getItemId());
                     }
-                    getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                            selectedFragment).commit();
                     return true;
                 }
             };
@@ -165,6 +263,8 @@ public class UserActivity extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.user, menu);
         return true;
     }
+    */
+
 
     public void logout(MenuItem item) {
         startActivity(new Intent(UserActivity.this, MainActivity.class));
