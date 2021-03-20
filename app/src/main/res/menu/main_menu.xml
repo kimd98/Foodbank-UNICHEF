@@ -17,6 +17,10 @@
             android:icon="@drawable/ic_baseline_qr_code_scanner_24"
             android:title="@string/qr_code" />
         <item
+            android:id="@+id/nav_map"
+            android:icon="@drawable/ic_map_black_24dp"
+            android:title="Google Maps" />
+        <item
             android:id="@+id/nav_logout"
             android:onClick="logout"
             android:icon="@drawable/ic_logout"

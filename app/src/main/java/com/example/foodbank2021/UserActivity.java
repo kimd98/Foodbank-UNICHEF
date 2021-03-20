@@ -3,12 +3,12 @@ package com.example.foodbank2021;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -31,7 +31,9 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
+import static android.content.ContentValues.TAG;
 import static java.lang.Boolean.parseBoolean;
 
 public class UserActivity extends AppCompatActivity {
@@ -70,7 +72,7 @@ public class UserActivity extends AppCompatActivity {
         // fragment title tool bar
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        toolbar.setTitle("Home");
+        toolbar.setTitle("Welcome to UNICHEF");
 
         // side bar
         drawerLayout=findViewById(R.id.drawer_layout);
@@ -92,18 +94,19 @@ public class UserActivity extends AppCompatActivity {
         showList();
     }
 
+    // custom adapter subclass
     public class MyAdapter extends ArrayAdapter<String> {
         Context context;
         String rName[];
         String rLocation[];
-        int rImage[];
+        String rAmount[];
 
-        MyAdapter (Context c, String s1[], String s2[], int img[]) {
+        MyAdapter (Context c, String s1[], String s2[], String s3[]) {
             super(c, R.layout.row, R.id.foodname, s1);
             this.context = c;
             this.rName = s1;
             this.rLocation = s2;
-            this.rImage = img;
+            this.rAmount = s3;
         }
 
         @NonNull
@@ -111,12 +114,12 @@ public class UserActivity extends AppCompatActivity {
         public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
             LayoutInflater layoutInflater = (LayoutInflater) getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             View row = layoutInflater.inflate(R.layout.row, parent, false);
-            ImageView images = row.findViewById(R.id.image);
             TextView name = row.findViewById(R.id.foodname);
             TextView location = row.findViewById(R.id.location);
+            TextView amount = row.findViewById(R.id.amount);
 
-            images.setImageResource(rImage[position]);
             name.setText(rName[position]);
+            amount.setText(rAmount[position]);
             location.setText(rLocation[position]);
 
             return row;
@@ -128,10 +131,10 @@ public class UserActivity extends AppCompatActivity {
         ListView listView;
         ArrayList<String> nameList = new ArrayList<>();
         ArrayList<String> locationList = new ArrayList<>();
-        int image[] = {R.drawable.burger, R.drawable.ic_launcher_foreground};
+        ArrayList<String> amountList = new ArrayList<>();
 
         DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference();
-        dbRef.addValueEventListener(new ValueEventListener() {
+        dbRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 DataSnapshot foodsn = snapshot.child("Food");
@@ -139,10 +142,12 @@ public class UserActivity extends AppCompatActivity {
 
                 for (DataSnapshot dataSnapshot : foodsn.getChildren()) {
                     String name_str = dataSnapshot.child("name").getValue().toString();
+                    String amount_str = dataSnapshot.child("amount").getValue().toString();
                     String fridge_str = dataSnapshot.child("fridge").getValue().toString();
                     String location_str = fridgesn.child(fridge_str).child("location").getValue().toString();
 
                     nameList.add(name_str);
+                    amountList.add(amount_str);
                     locationList.add(location_str);
                 }
             }
@@ -153,28 +158,37 @@ public class UserActivity extends AppCompatActivity {
             }
         });
 
-        String[] nameArr = (String[]) nameList.toArray(new String[0]);
-        String[] locationArr = (String[]) locationList.toArray(new String[0]);
+        // debugging
+        Log.d(TAG, Arrays.toString(nameList.toArray()));
 
-        MyAdapter adapter = new MyAdapter(this, nameArr, locationArr, image);
+        // convert arraylist to string array
+        //String[] nameArr = (String[]) nameList.toArray(new String[0]);
+        String[] nameArr = {"test", "food", "teest"};
+        //String[] amountArr = (String[]) amountList.toArray(new String[0]);
+        String[] amountArr = {"test", "food", "teest"};
+        //String[] locationArr = (String[]) locationList.toArray(new String[0]);
+        String[] locationArr = {"test", "food", "teest"};
+
+        MyAdapter adapter = new MyAdapter(this, nameArr, locationArr, amountArr);
         listView = findViewById(R.id.list_view);
         listView.setAdapter(adapter);
 
+        // donation floating button
         donate = findViewById(R.id.donate);
-        /*donate.setOnClickListener(new View.OnClickListener() {
+        donate.setOnClickListener(new View.OnClickListener() {
             boolean click = true;
 
             @Override
             public void onClick(View v) {
                 if (click) {
                     Toast.makeText(UserActivity.this, "Hello?", Toast.LENGTH_SHORT).show();
+                    // put a donation function
                     click = false;
                 } else {
                     click = true;
                 }
             }
         });
-         */
     }
 
     public void onBackPressed() {
@@ -198,13 +212,11 @@ public class UserActivity extends AppCompatActivity {
                             startActivity(new Intent(UserActivity.this, ProfileActivity.class));
                             break;
                         case R.id.nav_qrcode:
-                            if (verified) {
-                                startActivity(new Intent(UserActivity.this, createQRcode.class));
-                                break;
-                            } else {
-                                Toast.makeText(UserActivity.this, "Please verify your account first!",
-                                        Toast.LENGTH_LONG).show();
-                            }
+                            startActivity(new Intent(UserActivity.this, createQRcode.class));
+                            break;
+                        case R.id.nav_map:
+                            startActivity(new Intent(UserActivity.this, MapActivity.class));
+                            break;
                         case R.id.nav_logout:
                             startActivity(new Intent(UserActivity.this, MainActivity.class));
                             break;
@@ -214,67 +226,10 @@ public class UserActivity extends AppCompatActivity {
                 }
             };
 
-    /*
-    // bottom action bar landing fragments
-    private final BottomNavigationView.OnNavigationItemSelectedListener navListener =
-            new BottomNavigationView.OnNavigationItemSelectedListener() {
-                @SuppressLint("NonConstantResourceId")
-                @Override
-                public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                    Fragment selectedFragment;
-
-                    switch (item.getItemId()) {
-                        case R.id.navigation_home:
-                            startActivity(new Intent(UserActivity.this, UserActivity.class));
-                            donate.show();
-                            toolbar.setTitle("Home");
-                            break;
-                        case R.id.navigation_map:
-                            selectedFragment = new MapFragment();
-                            donate.hide();
-                            toolbar.setTitle("Map");
-                            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                                    selectedFragment).commit();
-                            break;
-                        case R.id.navigation_notifications:
-                            selectedFragment = new NotificationsFragment();
-                            donate.hide();
-                            toolbar.setTitle("Notifications");
-                            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                                    selectedFragment).commit();
-                            break;
-                        case R.id.navigation_messenger:
-                            selectedFragment = new MessengerFragment();
-                            donate.hide();
-                            toolbar.setTitle("Messenger");
-                            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                                    selectedFragment).commit();
-                            break;
-                        default:
-                            throw new IllegalStateException("Unexpected value: " + item.getItemId());
-                    }
-                    return true;
-                }
-            };
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.user, menu);
-        return true;
-    }
-    */
-
-
     public void logout(MenuItem item) {
         startActivity(new Intent(UserActivity.this, MainActivity.class));
         preferences.clearData(this);
         finish();
-    }
-    public void qrcode(MenuItem item){
-        if (verified) {
-            startActivity(new Intent(UserActivity.this, createQRcode.class));
-        }
     }
 
 }

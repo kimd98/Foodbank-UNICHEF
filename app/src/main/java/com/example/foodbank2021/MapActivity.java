@@ -18,8 +18,6 @@ import com.google.android.gms.maps.SupportMapFragment;
 
 public class MapActivity extends AppCompatActivity implements OnMapReadyCallback {
 
-    // unused
-
     @Override
     public void onMapReady (GoogleMap googleMap) {
         Toast.makeText(this, "Map is Ready", Toast.LENGTH_SHORT).show();
@@ -36,7 +34,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.fragment_map);
+        setContentView(R.layout.activity_map);
     }
 
     private void initMap() {

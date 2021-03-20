@@ -32,19 +32,8 @@
         <FrameLayout
             android:id="@+id/fragment_container"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_above="@id/bottom_nav"
-            android:layout_marginBottom="?attr/actionBarSize"  />
+            android:layout_height="match_parent"  />
 
-        <com.google.android.material.bottomnavigation.BottomNavigationView
-            android:id="@+id/bottom_nav"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="?android:attr/windowBackground"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:menu="@menu/admin_bottom_nav_menu" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
     <com.google.android.material.navigation.NavigationView
@@ -54,6 +43,5 @@
         app:headerLayout="@layout/user_nav_header_user"
         app:menu="@menu/activity_admin_drawer"
         android:layout_gravity="left"
-        android:layout_marginRight="120dp"
-        android:layout_marginBottom="?attr/actionBarSize" />
+        android:layout_marginRight="120dp"/>
 </androidx.drawerlayout.widget.DrawerLayout>
