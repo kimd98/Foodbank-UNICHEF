@@ -3,7 +3,6 @@ package com.example.foodbank2021;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -30,21 +29,28 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 
-import static android.content.ContentValues.TAG;
 import static java.lang.Boolean.parseBoolean;
 
 public class UserActivity extends AppCompatActivity {
 
     private DrawerLayout drawerLayout;
     private NavigationView navigationView;
-    private final String user_uid= FirebaseAuth.getInstance().getCurrentUser().getUid();
+
+    private DatabaseReference mDatabase1 = FirebaseDatabase.getInstance().getReference().child("Food");
+    private DatabaseReference mDatabase2 = FirebaseDatabase.getInstance().getReference().child("Fridge");
+    private final String user_uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
     boolean verified = false;
     Toolbar toolbar;
     FloatingActionButton donate;
+
+    // data string arrays
+    String[] nameArr;
+    String[] amountArr;
+    String[] fridgeArr;
+    String[] locationArr;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,6 +75,7 @@ public class UserActivity extends AppCompatActivity {
             }
         });
 
+
         // fragment title tool bar
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -81,17 +88,65 @@ public class UserActivity extends AppCompatActivity {
         // display user email on drawer
         String user_email= FirebaseAuth.getInstance().getCurrentUser().getEmail();
         View headerView = navigationView.getHeaderView(0);
-        TextView textViewToChange = (TextView) headerView.findViewById(R.id.username);
+        TextView textViewToChange = headerView.findViewById(R.id.username);
         textViewToChange.setText(user_email);
 
         navigationView.bringToFront();
-        ActionBarDrawerToggle toggle=new ActionBarDrawerToggle(this,drawerLayout,toolbar,R.string.navigation_drawer_open,R.string.navigation_drawer_close);
+        ActionBarDrawerToggle toggle=new ActionBarDrawerToggle(this,drawerLayout,toolbar,
+                R.string.navigation_drawer_open,R.string.navigation_drawer_close);
         drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
         navigationView.setNavigationItemSelectedListener(sidenavListener);
 
-        // show the food list
+        // getData();
         showList();
+    }
+
+    public void updateFood (Food item) {
+        nameArr = Arrays.copyOf(nameArr, nameArr.length + 1);
+        amountArr = Arrays.copyOf(amountArr, amountArr.length + 1);
+        fridgeArr = Arrays.copyOf(fridgeArr, fridgeArr.length + 1);
+        nameArr[nameArr.length-1] = item.getName();
+        amountArr[amountArr.length-1] = item.getAmount();
+        fridgeArr[fridgeArr.length-1] = item.getFridgeID();
+    }
+
+    public void updateLocation (String item) {
+        locationArr = Arrays.copyOf(locationArr, locationArr.length + 1);
+        locationArr[locationArr.length-1] = item;
+    }
+
+    private void getData() {
+
+        mDatabase1.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                    Food food = dataSnapshot.getValue(Food.class);
+                    updateFood(food);
+                }
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Toast.makeText(UserActivity.this, "Fail to get food data.", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        mDatabase2.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (int i =0; i < fridgeArr.length; i++) {
+                    String fridgeID = fridgeArr[i];
+                    String location_str = snapshot.child(fridgeID).child("location").getValue(String.class);
+                    updateLocation(location_str);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Toast.makeText(UserActivity.this, "Fail to get location.", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     // custom adapter subclass
@@ -127,47 +182,13 @@ public class UserActivity extends AppCompatActivity {
     }
 
     public void showList() {
-
         ListView listView;
-        ArrayList<String> nameList = new ArrayList<>();
-        ArrayList<String> locationList = new ArrayList<>();
-        ArrayList<String> amountList = new ArrayList<>();
 
-        DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference();
-        dbRef.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                DataSnapshot foodsn = snapshot.child("Food");
-                DataSnapshot fridgesn = snapshot.child("Fridge");
-
-                for (DataSnapshot dataSnapshot : foodsn.getChildren()) {
-                    String name_str = dataSnapshot.child("name").getValue().toString();
-                    String amount_str = dataSnapshot.child("amount").getValue().toString();
-                    String fridge_str = dataSnapshot.child("fridge").getValue().toString();
-                    String location_str = fridgesn.child(fridge_str).child("location").getValue().toString();
-
-                    nameList.add(name_str);
-                    amountList.add(amount_str);
-                    locationList.add(location_str);
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                // do nothing
-            }
-        });
-
-        // debugging
-        Log.d(TAG, Arrays.toString(nameList.toArray()));
-
-        // convert arraylist to string array
-        //String[] nameArr = (String[]) nameList.toArray(new String[0]);
-        String[] nameArr = {"test", "food", "teest"};
-        //String[] amountArr = (String[]) amountList.toArray(new String[0]);
-        String[] amountArr = {"test", "food", "teest"};
-        //String[] locationArr = (String[]) locationList.toArray(new String[0]);
-        String[] locationArr = {"test", "food", "teest"};
+        // temporary data
+        nameArr = new String[]{"Oranges", "Chocolate", "Milk", "Tacos", "Cherry"};
+        amountArr = new String[]{"3", "1", "1L", "30", "40"};
+        locationArr = new String[]{"Seoul City Hall", "Ewha Girls' High School", "Duck-Su Palace",
+                            "Seoul City Hall", "Seodaemun Police Office"};
 
         MyAdapter adapter = new MyAdapter(this, nameArr, locationArr, amountArr);
         listView = findViewById(R.id.list_view);
@@ -206,7 +227,7 @@ public class UserActivity extends AppCompatActivity {
                 public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                     switch (item.getItemId()) {
                         case R.id.nav_home:
-//                          startActivity(new Intent(UserActivity.this, UserActivity.class));
+                            startActivity(new Intent(UserActivity.this, UserActivity.class));
                             break;
                         case R.id.nav_profile:
                             startActivity(new Intent(UserActivity.this, ProfileActivity.class));

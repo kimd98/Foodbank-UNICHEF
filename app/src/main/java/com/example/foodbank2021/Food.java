@@ -1,44 +1,48 @@
 package com.example.foodbank2021;
 
 public class Food {
-    private String mName;
-    private String mAmount;
-    private String mDonator;
-    private String mReceiver;
-    private String mExpireDate;
-    private String mFridge;
+    private String name;
+    private String amount;
+    private String donor;
+    private String recipient;
+    private String expireDate;
+    private String fridge;
 
-    public Food (String name, String amount, String donator, String receiver,
-                 String expireDate, String fridgeID) {
-        mName = name;
-        mAmount = amount;
-        mDonator = donator;
-        mReceiver = receiver;
-        mExpireDate = expireDate;
-        mFridge = fridgeID;
+    public Food (String name, String amount, String donor, String recipient,
+                 String expireDate, String fridge) {
+        name = this.name;
+        amount = this.amount;
+        donor = this.donor;
+        recipient = this.recipient;
+        expireDate = this.expireDate;
+        fridge = this.fridge;
+    }
+
+    public Food () {
+
     }
 
     public String getName() {
-        return mName;
+        return this.name;
     }
 
     public String getAmount() {
-        return mAmount;
+        return this.amount;
     }
 
     public String getDonator() {
-        return mDonator;
+        return this.donor;
     }
 
-    public String getReceiver() {
-        return mReceiver;
+    public String getRecipient() {
+        return this.recipient;
     }
 
     public String getExpireDate() {
-        return mExpireDate;
+        return this.expireDate;
     }
 
     public String getFridgeID() {
-        return mFridge;
+        return this.fridge;
     }
 }
