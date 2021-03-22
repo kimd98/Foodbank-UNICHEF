@@ -12,7 +12,9 @@
         android:theme="@style/Theme.Foodbank2021">
         <activity android:name=".MemberActivity"></activity>
 
-        <activity android:name=".MapActivity" />
+        <activity android:name=".MapActivity"
+            android:label="Google Maps">
+        </activity>
 
         <activity android:name=".createQRcode" />
         <activity android:name=".LoginActivity" />
@@ -38,6 +40,7 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyDW3i5jCXLjaet4x5MLn6bEIHOBwuGTuu0" />
     </application>
+
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />

@@ -70,4 +70,7 @@ dependencies {
     implementation "androidx.navigation:navigation-fragment-ktx:2.3.3"
     implementation "androidx.navigation:navigation-ui-ktx:2.3.3"
     implementation 'com.google.android.gms:play-services-location:18.0.0'
+    implementation 'com.google.android.libraries.places:places:2.0.0'
+    androidTestImplementation 'com.android.support.test:runner:1.0.1'
+    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
 }
