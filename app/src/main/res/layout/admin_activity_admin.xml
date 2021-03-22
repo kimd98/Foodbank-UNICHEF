@@ -7,17 +7,18 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:openDrawer="start"
-    >
+    tools:openDrawer="start">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
+        app:title="Home"
         android:fitsSystemWindows="true"
-        android:layout_height="wrap_content"
+        android:layout_height="?attr/actionBarSize"
         android:layout_width="match_parent"
         android:minHeight="?attr/actionBarSize"
         android:background="?attr/colorPrimary"
         app:popupTheme="@style/Theme.Foodbank2021.PopupOverlay"
+        android:textAlignment="center"
         android:gravity="center|top">
     </androidx.appcompat.widget.Toolbar>
 
@@ -26,16 +27,64 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:paddingTop="?attr/actionBarSize"
-        tools:ignore="ExtraText"
-        >
+        tools:ignore="ExtraText">
 
         <FrameLayout
-            android:id="@+id/fragment_container"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"  />
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:background="@color/white">
+
+            <Button
+                android:id="@+id/filter"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginEnd="15dp"
+                android:layout_marginBottom="15dp"
+                android:background="@drawable/button_login"
+                android:backgroundTint="@color/olive_transparent"
+                android:text="@string/filter"
+                android:textColor="@color/white" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:paddingTop="75dp"
+                android:paddingBottom="@android:dimen/app_icon_size"
+                >
+
+                <ListView
+                    android:id="@+id/list_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@android:color/transparent"
+                    android:cacheColorHint="@android:color/transparent"
+                    android:divider="@color/olive"
+                    android:dividerHeight="1dp"
+                    android:listSelector="@color/gold_transparent"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    />
+            </LinearLayout>
+
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Hunger is something no one should struggle with, or be judged for."
+                android:textColor="@color/black"
+                android:textStyle="italic"
+                android:background="@android:color/transparent"
+                android:textSize="12dp"
+                android:layout_gravity="bottom|center_horizontal"
+                android:paddingBottom="20dp"/>
+        </FrameLayout>
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
     <com.google.android.material.navigation.NavigationView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -44,4 +93,5 @@
         app:menu="@menu/activity_admin_drawer"
         android:layout_gravity="left"
         android:layout_marginRight="120dp"/>
+
 </androidx.drawerlayout.widget.DrawerLayout>

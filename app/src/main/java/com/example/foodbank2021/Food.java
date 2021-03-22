@@ -5,21 +5,21 @@ public class Food {
     private String amount;
     private String donor;
     private String recipient;
-    private String expireDate;
+    private String expiryDate;
     private String fridge;
 
     public Food (String name, String amount, String donor, String recipient,
-                 String expireDate, String fridge) {
-        name = this.name;
-        amount = this.amount;
-        donor = this.donor;
-        recipient = this.recipient;
-        expireDate = this.expireDate;
-        fridge = this.fridge;
+                 String expiryDate, String fridge) {
+        this.name = name;
+        this.amount = amount;
+        this.donor = donor;
+        this.recipient = recipient;
+        this.expiryDate = expiryDate;
+        this.fridge = fridge;
     }
 
     public Food () {
-
+        // empty constructor for firebase
     }
 
     public String getName() {
@@ -30,7 +30,7 @@ public class Food {
         return this.amount;
     }
 
-    public String getDonator() {
+    public String getDonor() {
         return this.donor;
     }
 
@@ -38,11 +38,12 @@ public class Food {
         return this.recipient;
     }
 
-    public String getExpireDate() {
-        return this.expireDate;
+    public String getExpiryDate() {
+        return this.expiryDate;
     }
 
-    public String getFridgeID() {
+    public String getFridge() {
         return this.fridge;
     }
+
 }

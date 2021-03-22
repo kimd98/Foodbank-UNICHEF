@@ -8,7 +8,6 @@ import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.CheckBox;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -90,6 +89,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         Toast.makeText(this, "Map is Ready", Toast.LENGTH_SHORT).show();
         Log.d(TAG, "onMapReady: ready");
         mUiSettings.setZoomControlsEnabled(true);
+
         // add LatLng locations
         // https://developers.google.com/maps/documentation/javascript/examples/event-click-latlng
         LatLng UBC = new LatLng(49.26690516255745, -123.25011871186251);
@@ -128,7 +128,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                 .icon(BitmapFromVector(getApplicationContext(), R.drawable.foodbank)));
         mMap.addMarker(new MarkerOptions().position(richmond).title("Foodbank-Richmond")
                 .icon(BitmapFromVector(getApplicationContext(), R.drawable.foodbank)));
-        mMap.addMarker(new MarkerOptions().position(ewhahigh).title("Foodbank-Ewha Womens High School")
+        mMap.addMarker(new MarkerOptions().position(ewhahigh).title("Foodbank-Ewha Girls High School")
                 .icon(BitmapFromVector(getApplicationContext(), R.drawable.foodbank)));
         mMap.addMarker(new MarkerOptions().position(jongam).title("Foodbank-Jongamdong")
                 .icon(BitmapFromVector(getApplicationContext(), R.drawable.foodbank)));

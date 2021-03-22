@@ -22,4 +22,5 @@
     <string name="username">Username</string>
     <string name="messenger">Messenger</string>
     <string name="donation">Donation</string>
+    <string name="filter">Filter</string>
 </resources>
