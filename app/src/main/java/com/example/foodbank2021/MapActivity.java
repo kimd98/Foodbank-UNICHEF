@@ -8,6 +8,7 @@ import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.CheckBox;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -22,6 +23,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.UiSettings;
 import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
@@ -47,6 +49,8 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     private static final int PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1;
     private final LatLng defaultLocation = new LatLng(49.26690516255745, -123.25011871186251);
     private static final int DEFAULT_ZOOM = 15;
+    private UiSettings mUiSettings;
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -80,11 +84,12 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     }
 
     @Override
-    public void onMapReady(GoogleMap googleMap) {
+    public void onMapReady(GoogleMap googleMap) {//구글맵 준비되면 호출
         this.mMap = googleMap;
+        mUiSettings=mMap.getUiSettings();
         Toast.makeText(this, "Map is Ready", Toast.LENGTH_SHORT).show();
         Log.d(TAG, "onMapReady: ready");
-
+        mUiSettings.setZoomControlsEnabled(true);
         // add LatLng locations
         // https://developers.google.com/maps/documentation/javascript/examples/event-click-latlng
         LatLng UBC = new LatLng(49.26690516255745, -123.25011871186251);
@@ -96,6 +101,13 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         LatLng coquitlam = new LatLng(49.27802544568097,-122.80188136275119);
         LatLng richmond = new LatLng(49.175083486227386, -123.1321575516143);
         LatLng surrey = new LatLng(49.18538973916381, -122.84677546093297);
+        LatLng ewhahigh=new LatLng(37.565837, 126.971167);
+        LatLng jongam=new LatLng(37.599175, 127.035305);
+        LatLng jeju=new LatLng(33.510512, 126.491386);
+        LatLng incheon=new LatLng(37.461008, 126.440438);
+        LatLng soongsil=new LatLng(37.496400, 126.957480);
+        LatLng jeonju=new LatLng(35.815565, 127.153510);
+        LatLng france=new LatLng(48.793000, 2.318133);
 
         // add foodbank markers
         mMap.addMarker(new MarkerOptions().position(UBC).title("Foodbank-UBC")
@@ -115,6 +127,20 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         mMap.addMarker(new MarkerOptions().position(surrey).title("Foodbank-Surrey")
                 .icon(BitmapFromVector(getApplicationContext(), R.drawable.foodbank)));
         mMap.addMarker(new MarkerOptions().position(richmond).title("Foodbank-Richmond")
+                .icon(BitmapFromVector(getApplicationContext(), R.drawable.foodbank)));
+        mMap.addMarker(new MarkerOptions().position(ewhahigh).title("Foodbank-Ewha Womens High School")
+                .icon(BitmapFromVector(getApplicationContext(), R.drawable.foodbank)));
+        mMap.addMarker(new MarkerOptions().position(jongam).title("Foodbank-Jongamdong")
+                .icon(BitmapFromVector(getApplicationContext(), R.drawable.foodbank)));
+        mMap.addMarker(new MarkerOptions().position(jeju).title("Foodbank-Jeju")
+                .icon(BitmapFromVector(getApplicationContext(), R.drawable.foodbank)));
+        mMap.addMarker(new MarkerOptions().position(incheon).title("Foodbank-Incheon")
+                .icon(BitmapFromVector(getApplicationContext(), R.drawable.foodbank)));
+        mMap.addMarker(new MarkerOptions().position(soongsil).title("Foodbank-Soongsil")
+                .icon(BitmapFromVector(getApplicationContext(), R.drawable.foodbank)));
+        mMap.addMarker(new MarkerOptions().position(jeonju).title("Foodbank-Jeonju")
+                .icon(BitmapFromVector(getApplicationContext(), R.drawable.foodbank)));
+        mMap.addMarker(new MarkerOptions().position(france).title("Foodbank-France")
                 .icon(BitmapFromVector(getApplicationContext(), R.drawable.foodbank)));
 
         getLocationPermission();

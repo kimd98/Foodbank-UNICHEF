@@ -2,12 +2,14 @@ package com.example.foodbank2021;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -20,6 +22,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
+import com.google.android.gms.maps.UiSettings;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
@@ -37,7 +40,6 @@ public class UserActivity extends AppCompatActivity {
 
     private DrawerLayout drawerLayout;
     private NavigationView navigationView;
-
     private DatabaseReference mDatabase1 = FirebaseDatabase.getInstance().getReference().child("Food");
     private DatabaseReference mDatabase2 = FirebaseDatabase.getInstance().getReference().child("Fridge");
     private final String user_uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
@@ -87,9 +89,12 @@ public class UserActivity extends AppCompatActivity {
 
         // display user email on drawer
         String user_email= FirebaseAuth.getInstance().getCurrentUser().getEmail();
+        //Uri user_profile=FirebaseAuth.getInstance().getCurrentUser().getPhotoUrl();
         View headerView = navigationView.getHeaderView(0);
         TextView textViewToChange = headerView.findViewById(R.id.username);
         textViewToChange.setText(user_email);
+        //ImageView imageViewToChange=headerView.findViewById(R.id.imageView);
+        //imageViewToChange.setImageURI(user_profile);
 
         navigationView.bringToFront();
         ActionBarDrawerToggle toggle=new ActionBarDrawerToggle(this,drawerLayout,toolbar,

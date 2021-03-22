@@ -58,10 +58,10 @@
         android:id="@+id/signup"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="J o i n  u s  t o d a y !"
+        android:text="        J o i n    u s    t o d a y !"
         android:textColor="@color/white"
         android:textSize="15sp"
-        android:textAlignment="textEnd"
+        android:textAlignment="center"
         android:paddingEnd="40dp"
         android:background="#07000000"
         tools:ignore="HardcodedText,RtlSymmetry" />

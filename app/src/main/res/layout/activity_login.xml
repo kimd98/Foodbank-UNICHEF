@@ -90,7 +90,7 @@
             android:layout_height="wrap_content"
             android:background="#07000000"
             android:paddingEnd="40dp"
-            android:text="forgot password?"
+            android:text="          forgot password?"
             android:textAlignment="center"
             android:textColor="@color/white"
             android:textSize="15sp"
