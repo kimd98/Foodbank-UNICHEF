@@ -36,6 +36,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".FoodActivity" />
+        <activity android:name=".Donation" />
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyDW3i5jCXLjaet4x5MLn6bEIHOBwuGTuu0" />

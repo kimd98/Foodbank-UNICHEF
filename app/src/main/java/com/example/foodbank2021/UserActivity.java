@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -139,8 +140,21 @@ public class UserActivity extends AppCompatActivity {
             }
         });
 
+        // Food take out
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = new Intent(UserActivity.this, FoodActivity.class);
+                Food selectedFood = (Food) listView.getAdapter().getItem(position);
+                intent.putExtra("FOODNAME", selectedFood.getName());
+                intent.putExtra("AMOUNT", selectedFood.getAmount());
+                intent.putExtra("LOCATION", selectedFood.getFridge());
+                intent.putExtra("EXPIRYDATE", selectedFood.getExpiryDate());
+                startActivity(intent);
+            }
+        });
 
-        // donation floating button
+        // Food donation
         donate = findViewById(R.id.donate);
         donate.setOnClickListener(new View.OnClickListener() {
             boolean click = true;
@@ -149,7 +163,7 @@ public class UserActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if (click) {
                     Toast.makeText(UserActivity.this, "Hello?", Toast.LENGTH_SHORT).show();
-                    // put a donation function
+                    startActivity(new Intent(UserActivity.this, Donation.class));
                     click = false;
                 } else {
                     click = true;

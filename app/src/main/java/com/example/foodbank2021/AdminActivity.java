@@ -99,11 +99,8 @@ public class AdminActivity extends AppCompatActivity {
             @Override
             public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String s) {
                 Food value = snapshot.getValue(Food.class);
-                // only if not taken, add to the list
-                if (value.getRecipient().equals("none")) {
-                    foodList.add(value);
-                    adapter.notifyDataSetChanged();
-                }
+                foodList.add(value);
+                adapter.notifyDataSetChanged();
             }
             @Override
             public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String s) {

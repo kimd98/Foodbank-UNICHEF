@@ -1,8 +1,10 @@
 <component name="ProjectDictionaryState">
   <dictionary name="lena">
     <words>
+      <w>expirydate</w>
       <w>fname</w>
       <w>foodlist</w>
+      <w>foodname</w>
       <w>foodsn</w>
       <w>fridgesn</w>
       <w>kimchi</w>

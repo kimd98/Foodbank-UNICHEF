@@ -23,4 +23,10 @@
     <string name="messenger">Messenger</string>
     <string name="donation">Donation</string>
     <string name="filter">Filter</string>
+    <string name="confirmation">Confirmation</string>
+    <string name="food_name">Food name</string>
+    <string name="location">Location</string>
+    <string name="amount">Amount</string>
+    <string name="expiry_date">Expiry Date</string>
+    <string name="donor">Donor</string>
 </resources>
