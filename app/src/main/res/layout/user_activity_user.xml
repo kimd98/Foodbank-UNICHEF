@@ -18,6 +18,7 @@
         android:background="?attr/colorPrimary"
         app:popupTheme="@style/Theme.Foodbank2021.PopupOverlay"
         android:textAlignment="center"
+        app:title= "Welcome to UNICHEF"
         android:gravity="center|top">
     </androidx.appcompat.widget.Toolbar>
 
@@ -34,7 +35,7 @@
             android:orientation="vertical"
             android:background="@color/white">
 
-            <Button
+            <SearchView
                 android:id="@+id/filter"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -43,11 +44,15 @@
                 android:layout_marginEnd="15dp"
                 android:layout_marginBottom="15dp"
                 android:background="@drawable/button_login"
-                android:backgroundTint="@color/olive_transparent"
-                android:text="@string/filter"
-                android:textColor="@color/white" />
+                android:backgroundTint="@color/gold_transparent"
+                android:textColor="@color/white"
+                android:queryHint="Search Location"
+                android:iconifiedByDefault="false"
+                android:layout_alignParentTop="true"
+                />
 
             <LinearLayout
+                android:layout_below="@+id/filter"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical"

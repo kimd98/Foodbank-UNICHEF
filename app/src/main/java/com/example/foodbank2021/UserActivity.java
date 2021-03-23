@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -36,11 +37,10 @@ public class UserActivity extends AppCompatActivity {
 
     private DrawerLayout drawerLayout;
     private NavigationView navigationView;
-    private DatabaseReference mDatabase1 = FirebaseDatabase.getInstance().getReference("Food");
-    private DatabaseReference mDatabase2 = FirebaseDatabase.getInstance().getReference("Fridge");
     private final String user_uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
     Toolbar toolbar;
+    SearchView filter;
     FloatingActionButton donate;
     ArrayList<Food> foodList = new ArrayList<>();
 
@@ -55,11 +55,11 @@ public class UserActivity extends AppCompatActivity {
         toolbar.setTitle("Welcome to UNICHEF");
 
         // side bar
-        drawerLayout=findViewById(R.id.drawer_layout);
-        navigationView=findViewById(R.id.nav_view);
+        drawerLayout = findViewById(R.id.drawer_layout);
+        navigationView = findViewById(R.id.nav_view);
 
         // display user email on drawer
-        String user_email= FirebaseAuth.getInstance().getCurrentUser().getEmail();
+        String user_email = FirebaseAuth.getInstance().getCurrentUser().getEmail();
         //Uri user_profile=FirebaseAuth.getInstance().getCurrentUser().getPhotoUrl();
 
         View headerView = navigationView.getHeaderView(0);
@@ -70,11 +70,13 @@ public class UserActivity extends AppCompatActivity {
         //imageViewToChange.setImageURI(user_profile);
 
         navigationView.bringToFront();
-        ActionBarDrawerToggle toggle=new ActionBarDrawerToggle(this,drawerLayout,toolbar,
-                R.string.navigation_drawer_open,R.string.navigation_drawer_close);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar,
+                R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
         navigationView.setNavigationItemSelectedListener(sidenavListener);
+
+        filter = findViewById(R.id.filter);
         showList();
     }
 
@@ -111,6 +113,19 @@ public class UserActivity extends AppCompatActivity {
         listView = findViewById(R.id.list_view);
         FoodAdapter adapter = new FoodAdapter(UserActivity.this, foodList);
         listView.setAdapter(adapter);
+
+        filter.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String text) {
+                // TODO Auto-generated method stub
+                return false;
+            }
+            @Override
+            public boolean onQueryTextChange(String text) {
+                adapter.getFilter().filter(text);
+                return false;
+            }
+        });
 
         // convert firebase data -> Food class and then store in the global arraylist
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Food");
