@@ -143,12 +143,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 if (task.isSuccessful()) {
                     FirebaseUser user=FirebaseAuth.getInstance().getCurrentUser();
                     assert user != null;
-                    if (user.isEmailVerified()) {
-                        login(user.getUid());
-                    } else {    // email not verified
-                        user.sendEmailVerification();
-                        Toast.makeText(LoginActivity.this,"Check your email to verify your account.",Toast.LENGTH_LONG).show();
-                    }
+                    login(user.getUid());
+
                 } else {    // unsuccessful task
                     Toast.makeText(LoginActivity.this,"Failed to login! Please check your credentials.",Toast.LENGTH_LONG).show();
                 }

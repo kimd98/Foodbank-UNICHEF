@@ -1,11 +1,14 @@
 package com.example.foodbank2021;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.util.Log;
 import android.view.Display;
+import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -28,8 +31,6 @@ public class MemberActivity extends AppCompatActivity {
     private DatabaseReference root;
     private  ArrayList<Model> list;
     private String as;
-//    ArrayList<String> userList = new ArrayList<>();
-//    ListView listview;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,9 +44,6 @@ public class MemberActivity extends AppCompatActivity {
         list=new ArrayList<>();
         db=FirebaseDatabase.getInstance();
         root=db.getReference("Users");
-        //adapter=new MyAdapter(this,list);
-
-        //recyclerView.setAdapter(adapter);
 
         root.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -67,34 +65,19 @@ public class MemberActivity extends AppCompatActivity {
         });
         adapter=new MyAdapter(this,list);
         recyclerView.setAdapter(adapter); //리사이크러뷰에 어댑터 연결
-//        DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference("Users");
-//        dbRef.addValueEventListener(new ValueEventListener() {
-//
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot snapshot) {
-//                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-//                    String userInfo = dataSnapshot.child("firstName").getValue().toString();
-//                    userInfo = userInfo.concat(" ");
-//                    userInfo = userInfo.concat(dataSnapshot.child("lastName").getValue().toString());
-//                    userInfo = userInfo.concat(" | ");
-//                    userInfo = userInfo.concat(dataSnapshot.child("email").getValue().toString());
-//                    userList.add(userInfo);
-//                }
-//            }
-//
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError error) {
-//                //do nothing
-//            }
-//        });
 
-//        listview = this.findViewById(R.id.userlist);
-//        showList();
     }
 
-//    public void showList() {
-//        ArrayAdapter adapter = new ArrayAdapter<>(this,
-//                R.layout.activity_listview, R.id.name_textView, userList);
-//        listview.setAdapter(adapter);
+//    public void onClick(View v){
+//        switch(v.getId()){
+//            case R.id.penalty_button:
+//                gvpenalty();
+//                break;
+//        }
 //    }
+//    public void gvpenalty(){
+//        Toast.makeText(MemberActivity.this, "OK", Toast.LENGTH_LONG).show();
+//
+//    }
+
 }

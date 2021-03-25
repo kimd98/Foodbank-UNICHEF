@@ -139,6 +139,9 @@ public class AdminActivity extends AppCompatActivity {
                         case R.id.nav_ams:
                             startActivity(new Intent(AdminActivity.this, MemberActivity.class));
                             break;
+                        case R.id.nav_penalty:
+                            startActivity(new Intent(AdminActivity.this, GvPenalty.class));
+                            break;
                         case R.id.nav_map:
                             startActivity(new Intent(AdminActivity.this, MapActivity.class));
                             break;

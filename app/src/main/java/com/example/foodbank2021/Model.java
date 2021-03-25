@@ -6,6 +6,18 @@ public class Model {
     private String email;
     private String verified;
 
+    public int getPenalty() {
+        return penalty;
+    }
+
+    public void setPenalty(int penalty) {
+        this.penalty = penalty;
+    }
+
+    private int penalty;
+
+
+
     public Model(){}
 
     public String getProfile() {

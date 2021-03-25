@@ -19,6 +19,7 @@
     <string name="profile">Profile</string>
     <string name="logout">Logout</string>
     <string name="qr_code">QR Code</string>
+    <string name="penalty">Penalty</string>
     <string name="username">Username</string>
     <string name="messenger">Messenger</string>
     <string name="donation">Donation</string>

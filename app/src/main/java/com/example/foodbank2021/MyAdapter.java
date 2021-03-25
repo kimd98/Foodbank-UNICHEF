@@ -38,6 +38,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
         holder.email.setText(mList.get(position).getEmail());
         holder.firstName.setText(mList.get(position).getFirstName());
         holder.verified.setText(mList.get(position).getVerified());
+        holder.penalty.setText(String.valueOf(mList.get(position).getPenalty()));
 
     }
 
@@ -48,7 +49,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
 
     public class MyViewHolder extends RecyclerView.ViewHolder{
         ImageView iv_profile;
-        TextView email, firstName, verified;
+        TextView email, firstName, verified,penalty;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -57,6 +58,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
             this.email=itemView.findViewById(R.id.tv_email);
             this.firstName=itemView.findViewById(R.id.tv_name);
             this.verified=itemView.findViewById(R.id.tv_verified);
+            this.penalty=itemView.findViewById(R.id.tv_penalty);
         }
     }
 }

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ForgotPassword">
+
+    <TextView
+        android:id="@+id/banner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:ems="10"
+        android:text="P E N A L T Y"
+        android:textAlignment="center"
+        android:textColor="@color/electric_brown"
+        android:textSize="45sp"
+        android:textStyle="bold"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/penalty_email"
+        android:layout_width="380dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="60dp"
+        android:ems="10"
+        android:hint="Enter User's Email"
+        android:inputType="textEmailAddress"
+        android:textSize="20sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/banner" />
+
+    <Button
+        android:id="@+id/gv_penalty"
+        android:layout_width="380dp"
+        android:layout_height="70dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginBottom="414dp"
+        android:backgroundTint="@color/electric_brown"
+        android:padding="20dp"
+        android:text="G I V E P E N A L T Y"
+        android:textColor="@color/white"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/penalty_email"
+        app:rippleColor="@color/olive_transparent"
+        tools:ignore="HardcodedText" />
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -31,13 +31,13 @@ public class ProfileActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
-        verify_now= findViewById(R.id.verify);
-        verify_now.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // go to passport
-            }
-        });
+//        verify_now= findViewById(R.id.verify);
+//        verify_now.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                // go to passport
+//            }
+//        });
 
         database = FirebaseDatabase.getInstance();
         databaseRef = database.getReference("Users");
@@ -58,11 +58,11 @@ public class ProfileActivity extends AppCompatActivity {
                     if (Objects.equals(keyId.child("email").getValue(String.class), user_email)) {
                         fname = keyId.child("firstName").getValue().toString();
                         email=keyId.child("email").getValue().toString();
-
-                        if (keyId.child("verified").getValue().toString() == "yes")
-                            verify = "Account Verified";
-                        else
-                            verify = "Account Not Verified";
+                        verify = "Account Verified";
+//                        if (keyId.child("verified").getValue().toString() == "yes")
+//                            verify = "Account Verified";
+//                        else
+//                            verify = "Account Not Verified";
                         break;
                     }
                 }

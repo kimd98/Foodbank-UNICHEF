@@ -13,6 +13,10 @@
             android:icon="@drawable/ic_baseline_people_alt_24"
             android:title="@string/ams" />
         <item
+            android:id="@+id/nav_penalty"
+            android:icon="@drawable/ic_baseline_block_24"
+            android:title="Penalty" />
+        <item
             android:id="@+id/nav_map"
             android:icon="@drawable/ic_map_black_24dp"
             android:title="Google Maps" />
