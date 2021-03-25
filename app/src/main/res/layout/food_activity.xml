@@ -48,10 +48,10 @@
                     />
 
             <ImageView
-                android:src="@drawable/confirm_foreground"
-                android:layout_height="wrap_content"
                 android:layout_width="match_parent"
-                android:contentDescription="check" />
+                android:layout_height="152dp"
+                android:contentDescription="check"
+                android:src="@mipmap/foodbank_foreground" />
 
                 <TextView
                     android:layout_width="match_parent"

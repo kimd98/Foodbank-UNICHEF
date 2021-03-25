@@ -2,13 +2,17 @@ package com.example.foodbank2021;
 
 import android.content.Context;
 import android.content.Intent;
+import android.nfc.Tag;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.ListView;
 import android.widget.SearchView;
 import android.widget.TextView;
@@ -32,6 +36,9 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
+import java.util.List;
+
+import static androidx.constraintlayout.motion.utils.Oscillator.TAG;
 
 public class UserActivity extends AppCompatActivity {
 
@@ -81,10 +88,18 @@ public class UserActivity extends AppCompatActivity {
     }
 
     // custom adapter for a food list
-    public class FoodAdapter extends ArrayAdapter<Food> {
+    public class FoodAdapter extends ArrayAdapter<Food> implements Filterable {
+
+        private Context context;
+        private List<Food> foodList;
+        List<Food> mStringFilterList;
+        ValueFilter valueFilter;
 
         public FoodAdapter(@NonNull Context context, ArrayList<Food> androidFood) {
             super(context, 0, androidFood);
+            this.context = context;
+            this.foodList = androidFood;
+            this.mStringFilterList = androidFood;
         }
 
         @NonNull
@@ -106,6 +121,52 @@ public class UserActivity extends AppCompatActivity {
                 locationView.setText("Location: " + currentFood.getFridge());
             return listItemView;
         }
+
+        // search for location
+
+        @Override
+        public Filter getFilter() {
+            if (valueFilter == null) {
+                valueFilter = new ValueFilter();
+            }
+            return valueFilter;
+        }
+
+        private class ValueFilter extends Filter {
+            @Override
+            protected FilterResults performFiltering(CharSequence constraint) {
+                FilterResults results = new FilterResults();
+
+                if (constraint != null && constraint.length() > 0) {
+                    ArrayList<Food> filterList = new ArrayList<Food>();
+                    for (int i = 0; i < mStringFilterList.size(); i++) {
+                        if ((mStringFilterList.get(i).getFridge().toUpperCase())
+                                .contains(constraint.toString().toUpperCase())) {
+
+                            Food food = new Food(mStringFilterList.get(i).getName(), mStringFilterList.get(i).getAmount(),
+                                    mStringFilterList.get(i).getDonor(), mStringFilterList.get(i).getRecipient(),
+                                    mStringFilterList.get(i).getExpiryDate(), mStringFilterList.get(i).getFridge());
+                            filterList.add(food);
+                        }
+                    }
+                    results.count = filterList.size();
+                    results.values = filterList;
+                } else {
+                    results.count = mStringFilterList.size();
+                    results.values = mStringFilterList;
+                }
+                return results;
+            }
+
+            @Override
+            protected void publishResults(CharSequence constraint,
+                                          FilterResults results) {
+                foodList = (ArrayList<Food>) results.values;
+                for (int i = 0; i < foodList.size(); i++)
+                    Log.e(TAG, foodList.get(i).getName());
+                notifyDataSetChanged();
+            }
+        }
     }
 
     public void showList() {
@@ -117,7 +178,7 @@ public class UserActivity extends AppCompatActivity {
         filter.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String text) {
-                // TODO Auto-generated method stub
+                adapter.getFilter().filter(text);
                 return false;
             }
             @Override
@@ -165,6 +226,7 @@ public class UserActivity extends AppCompatActivity {
                 intent.putExtra("AMOUNT", selectedFood.getAmount());
                 intent.putExtra("LOCATION", selectedFood.getFridge());
                 intent.putExtra("EXPIRYDATE", selectedFood.getExpiryDate());
+                intent.putExtra("FOODID", selectedFood.getID());
                 startActivity(intent);
             }
         });

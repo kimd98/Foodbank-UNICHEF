@@ -37,6 +37,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".FoodActivity" />
+        <activity android:name=".ConfirmActivity" />
         <activity android:name=".Donation" />
         <meta-data
             android:name="com.google.android.geo.API_KEY"
