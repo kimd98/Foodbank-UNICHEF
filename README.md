@@ -21,6 +21,17 @@ The application consists of two different major components: user and administrat
 
 2. **Admin UI** has four different pages: home, user information, penalty management and maps. The landing page is the same as users and it shows the list of food, but the only difference is the administrator can see all the information even if items are expired or received. Admin can see users’ profile including user name, email and penalty information. This information is connected to the Firebase real-time database. The penalty page is separated from the users’ profile to make it more convenient to use. Once a specific user gets a penalty, it finds the user from Firebase real-time database using the email and increases the number of penalties. Maps with foodbank labels and login/logout have no difference from user UI.
 
+The application has been implemented by 9 different activities.
+1. MainActivity
+2. LoginActivity
+3. UserActivity
+4. AdminActivity
+5. ProfileActivity
+6. MemberActivity
+7. MapActivity
+8. FoodActivity
+9. Donattion (DonateActivity)
+
 
 ## Testing Strategies
 1. Sharing the rough ideas with other students who have technical backgrounds. 
