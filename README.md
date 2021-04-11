@@ -22,15 +22,39 @@ The application consists of two different major components: user and administrat
 2. **Admin UI** has four different pages: home, user information, penalty management and maps. The landing page is the same as users and it shows the list of food, but the only difference is the administrator can see all the information even if items are expired or received. Admin can see users’ profile including user name, email and penalty information. This information is connected to the Firebase real-time database. The penalty page is separated from the users’ profile to make it more convenient to use. Once a specific user gets a penalty, it finds the user from Firebase real-time database using the email and increases the number of penalties. Maps with foodbank labels and login/logout have no difference from user UI.
 
 The application has been implemented by 9 different activities.
-1. MainActivity
-2. LoginActivity
-3. UserActivity
-4. AdminActivity
-5. ProfileActivity
-6. MemberActivity
-7. MapActivity
-8. FoodActivity
-9. Donattion (DonateActivity)
+1. **MainActivity**
+
+![mainactivity](https://user-images.githubusercontent.com/51341750/114314028-0d610980-9b34-11eb-8849-12649e0c0151.PNG)
+
+MainActivity has register button and sign-up button. User can register or login.
+
+3. LoginActivity
+
+User and Administrator have different ID and password so administrator can manage the app easily if they logins with admin ID and password.
+
+5. UserActivity
+
+Same as above description of User UI.
+
+7. AdminActivity
+
+Same as above description of Admin UI.
+
+9. ProfileActivity
+
+It shows current user's profile. After comparing the current user's e-mail with e-mail in Firebase real-time database, the data of the person whose email matched is fetched and displayed as a profile.
+
+11. MemberActivity
+
+It shows user's profile by putting the data in Model.class and using adaptor with recyclerview.
+
+13. MapActivity
+
+It shows fridge's location using Google Map API.
+15. FoodActivity
+
+It shows food list by 
+17. Donattion (DonateActivity)
 
 
 ## Testing Strategies
