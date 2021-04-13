@@ -33,6 +33,7 @@ MainActivity has register button and sign-up button. User can register or login.
 User and Administrator have different ID and password so administrator can manage the app easily if they logins with admin ID and password. If administrator login with admin's ID, it goes to AdminActivity.
 
 **3. UserActivity**
+
 -Food list: Get the data from firebase real-time database in 'Food' field using listview.
 -Side bar: It contains 4 lists using navigationview.
 
