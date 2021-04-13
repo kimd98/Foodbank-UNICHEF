@@ -28,34 +28,30 @@ The application has been implemented by 9 different activities.
 
 MainActivity has register button and sign-up button. User can register or login.
 
-3. LoginActivity
+2. LoginActivity
+User and Administrator have different ID and password so administrator can manage the app easily if they logins with admin ID and password. If administrator login with admin's ID, it goes to AdminActivity.
 
-User and Administrator have different ID and password so administrator can manage the app easily if they logins with admin ID and password.
+3. UserActivity
+-Food list: Get the data from firebase real-time database in 'Food' field using listview.
+-Side bar: It contains 4 lists using navigationview.
 
-5. UserActivity
+4. AdminActivity
+-Food list, side bar: Same as above description of UserActivity.
 
-Same as above description of User UI.
-
-7. AdminActivity
-
-Same as above description of Admin UI.
-
-9. ProfileActivity
-
+5. ProfileActivity
 It shows current user's profile. After comparing the current user's e-mail with e-mail in Firebase real-time database, the data of the person whose email matched is fetched and displayed as a profile.
 
-11. MemberActivity
-
+6. MemberActivity
 It shows user's profile by putting the data in Model.class and using adaptor with recyclerview.
 
-13. MapActivity
+7. MapActivity
+It shows fridges' location using Google Map API.
 
-It shows fridge's location using Google Map API.
-15. FoodActivity
+8. FoodActivity
+It shows informations of food using data from firebase real-time database. If user wants to take away the food, user clicks confirm buttons and the food is deleted from database. 
 
-It shows food list by 
-17. Donattion (DonateActivity)
-
+9. Donation (DonateActivity)
+If user wants to donate the food, user have to write down food's information and it is added to 'Food' field in database.
 
 ## Testing Strategies
 1. Sharing the rough ideas with other students who have technical backgrounds. 
