@@ -35,24 +35,31 @@ User and Administrator have different ID and password so administrator can manag
 **3. UserActivity**
 
 -Food list: Get the data from firebase real-time database in 'Food' field using listview.
+
 -Side bar: It contains 4 lists using navigationview.
 
 **4. AdminActivity**
+
 -Food list, side bar: Same as above description of UserActivity.
 
 **5. ProfileActivity**
+
 It shows current user's profile. After comparing the current user's e-mail with e-mail in Firebase real-time database, the data of the person whose email matched is fetched and displayed as a profile.
 
 **6. MemberActivity**
+
 It shows user's profile by putting the data in Model.class and using adaptor with recyclerview.
 
 **7. MapActivity**
+
 It shows fridges' location using Google Map API.
 
 **8. FoodActivity**
+
 It shows informations of food using data from firebase real-time database. If user wants to take away the food, user clicks confirm buttons and the food is deleted from database. 
 
 **9. Donation (DonateActivity)**
+
 If user wants to donate the food, user have to write down food's information and it is added to 'Food' field in database.
 
 ## Testing Strategies
