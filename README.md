@@ -2,7 +2,7 @@
 
 Google Solution Challenge 2021 (https://developers.google.com/community/dsc-solution-challenge)
 
-*Team KJ: Lena Kim, Ji-in Jeong*
+*Team KJ: Dayoung Lena Kim, Ji-in Jeong*
 
 ## Project Description
 More than 10 percent of the world’s population cannot meet their basic needs these days. The COVID-19 pandemic has been pushing more and more people in extreme poverty and the first increase in global poverty is expected to hit the world soon. This led to the increasing use of foodbanks, a free service to distribute food basics to people who do not have enough to eat. Today we can see food banks very easily in everyday life at community centres or grocery store entrances, which motivated our team to build a mobile application to help local communities, focusing on “no poverty”, “zero hunger” and “responsible consumption and production” of the United Nations’ sustainable development goals. 
